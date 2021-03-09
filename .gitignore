@@ -1,3 +1,3 @@
-/resources/*.csv
-/resources/*.zip
+/resources/*/*.csv
+/resources/*/*.zip
 .ipynb_*

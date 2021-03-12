@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "causal-tracker-307319",
+  "private_key_id": "b306ba9995933969a39b8a0fd215cb946aa3ea4b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC4k+HTk0S+e78Q\nyw8gwH+sQL1U2dbVQHisCJZmS7LihRDhAEcRf1xuxo/JY3fM3pBoDuhYhUFppOXr\na5nG30s/JJmMeNUFwl8GD26stO3DmDqd5iNrrQPuIrwwNM0mUN3ZiqZyx2rDtHCe\nBsxZ2GCyTtJ5TcjV//dk7XcPPSox/D3Okvk5ju87U5FrVn5H3Te3GNT/yKLtKh4T\n94TlMDtDGAe87wu8nW8AMVYzqXNzvIHDKqwish/qBCbw9FBRA4Eagspnux9rv82L\nYG/6LGU8sgHT+exInEllmi3bPDdASOnB32Hz1WYhmSBahikWSQb/YivtpD5uIN5Y\nMuC8+vj7AgMBAAECggEAFBO8kV+y2egVT7r8DvChcpfVgFtJq7Hy7lOTeIEXbjL8\niQeXXhHfzgo52GAXcejBBcX0BAef++EnQ++qWcrZdn7WrO71IkaS630rlAxXfdpw\ngH2+Be0F68Cffmbf7HZeC1cHj/NHwQ3pihGXPNaf01q7jjJQfDv21GWizmeK0BuT\n8AFfzQpmEkj5m0JxIlo8ZQtxIYsgwta6xGwokEaZwAMNunzu+2pC8V55hTdcIU50\nxtQw43UTZjk93hLzWw0YsGRF/flqw0SrzSLu0Zy6v0M81p6G4U0gvny3HVFfZiLj\nE/fd8pdYpDWJdpd89Jl8YR46bqskO32rnMe4sUh8EQKBgQDbogP4T7uV78LN9FJN\nOpXmSt9GtL4sg4/Cz+so3lq5d/uUwJrX4wgz5C3cznEg0h0HImmopyhyU2mH2+2s\nRcJLAk18uu+SLEx2F0LS6TfpsLc6Ry9Kg+m80SKj7/2ijSadBf8gxG9w6kobW4XQ\ndP8cBkZar5U4hEGYAT2Z/tyKpQKBgQDXI+quIoKtCjF1bt/uUvH9ZGDJ5P7XHGlv\nensG2nQjcbwezU8lZqt7qteI30+XxczwliMoUPjgcKJ4g5ReEI2p9oND3895vEA2\nnRN890I6z5bYuIGnctG+FGDtzJUmOuqeFApSYdfZLFx8br9KhpQr2uvbHyqSFreK\nh/cRIHlDHwKBgGP0jh36G4MXRO76XGJtYT8XoBnLtCkKDuk4Ouu0llGGO2btaQsL\ndfY3yG+PPIkVVsSicregq5WsRIDiJH6cmNoOSDmV0eYSZxHvcCgQn7OpCxpovysI\ncd3OyBcX57SMzJ/11LCS9azL08IzmujN9jRI3sfy1NSNzFRjbCejh7dJAoGAdKy/\n20xP/jQm+n705rUJE9jaPOP56QM5kwGjsuXKUmaeFT5XC/uQSHMwjMQ+0BqvuFJU\nIss3DdFH63/AePsVOPW93pOEW4ricDvjk8QsoORv9Hyro/o7EZDPuGdZA/CzyKMp\nrd/uRZMvXTRafbpapSYG/0D5v1yekXyHWzx3RxUCgYEAmu/TbAWjYo8TxtvMGUXZ\nkVkd4Fc6gnp/4dMlIOB0cGzVVeDYx2zd+hqcAoqFfi3EgcdazMIKwa5XMihZRzvL\n/cebftNF6zGsEbgfXLXnTsHVftJ4p+g5HKC5srZgZDbj+8qC8OlYTitC77i6+jxq\ncBGMX27pFgMzsVNjUTgtGro=\n-----END PRIVATE KEY-----\n",
+  "client_email": "colab-sentiment-training@causal-tracker-307319.iam.gserviceaccount.com",
+  "client_id": "113230026174290511534",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/colab-sentiment-training%40causal-tracker-307319.iam.gserviceaccount.com"
+}

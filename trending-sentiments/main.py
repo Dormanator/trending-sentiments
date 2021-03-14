@@ -17,13 +17,17 @@ api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 # Setup Page Title and Header
 st.set_page_config(page_title="Trending Sentiments", page_icon="📈", initial_sidebar_state="expanded",)
 st.write("""
-# Trending Sentiments
+# 📈 Trending Sentiments
 Discover trending sentiments on Twitter with a hashtag or keyword search.
 """)
 
 # Setup Sidebar
 # Handle user input
 search = st.sidebar.text_input('Search Twitter', '#Avatar')
+st.sidebar.write("""
+Created by Ryan Dorman
+""")
+
 if not search:
     st.warning('Please input a search value.')
     st.stop()
@@ -72,7 +76,7 @@ st.line_chart(tweets_per_min)
 # length of time period 100 most recent occurred in kpi (e.g., Occurred in 6 hours)
 # Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (1)
 
-# Scatter of sentiment & intensity over time for tweets
+# Stacked barchart of sentiment & intensity over time for tweets
 
 # top 5 hashtags bar chart
 

@@ -1,5 +1,2 @@
-/resources/*.csv
-/resources/*/*.csv
-/resources/*.zip
-/resources/*/*.zip
+/model
 .ipynb_*

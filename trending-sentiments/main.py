@@ -1,10 +1,11 @@
 import os
+import re
 import string
-import time
 
 import streamlit as st
 import tweepy
 import pandas as pd
+import numpy as np
 import stanza
 
 from dotenv import load_dotenv
@@ -30,21 +31,29 @@ def search(query):
 
 
 def json_to_dataframe(json_data):
-    cols_to_include = ['id', 'created_at', 'full_text', 'retweet_count', 'favorite_count',
+    cols_to_include = ['id', 'created_at', 'full_text', 'tweet', 'retweet_count', 'favorite_count',
                        'entities.hashtags', 'user.id', 'user.screen_name']
     dataframe = pd.json_normalize(json_data)
+    # TODO: add 'RT @user:' to full tweet text
+    retweet_map = ~dataframe['retweeted_status.full_text'].isnull()
+    end_of_user_tags = dataframe.loc[retweet_map, 'full_text'].str.index(':')
+    end_of_user_tags
+    # 
+    dataframe['tweet'] = dataframe['retweeted_status.full_text'].fillna(dataframe['full_text'])
     dataframe['created_at'] = pd.to_datetime(dataframe['created_at']).dt.tz_convert(None)
     return dataframe[cols_to_include]
 
 
 def clean_tweet(tweet):
-    return tweet \
-        .replace('\n', ' ') \
+    # Remove whitespace between text, urls, punctuation, trailing whitespace
+    result = re.sub(r'\s+', ' ', tweet)
+    result = re.sub(r"https?://[A-Za-z0-9./]+", ' ', result)
+    return result \
         .translate(str.maketrans('', '', string.punctuation)) \
         .strip()
 
 
-@st.cache
+@st.cache(show_spinner=True)
 def predict_sentiment(tweet):
     doc = nlp(tweet)
     return doc.sentences[0].sentiment
@@ -81,8 +90,9 @@ if __name__ == '__main__':
 
     # Predict tweet sentiments using Stanza CNN classifier
     with st.spinner('Analyzing Sentiments...'):
-        df['sentiment'] = df['full_text'].apply(clean_tweet).apply(predict_sentiment)
+        df['sentiment'] = df['tweet'].map(clean_tweet).map(predict_sentiment)
     st.balloons()
+    st.write(df['tweet'][0], df['sentiment'][0])
 
     # Start of Page Body
     st.write("""

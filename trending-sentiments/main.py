@@ -1,4 +1,7 @@
 import os
+import string
+import time
+
 import streamlit as st
 import tweepy
 import pandas as pd
@@ -9,13 +12,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# Load ML model
 @st.cache(show_spinner=True)
 def load_model():
     stanza.download('en', model_dir='./model')
 
 
-# Connect to Twitter
 def connect():
     auth = tweepy.AppAuthHandler(os.getenv('TWITTER_KEY'), os.getenv('TWITTER_SECRET_KEY'))
     return tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
@@ -31,10 +32,22 @@ def search(query):
 def json_to_dataframe(json_data):
     cols_to_include = ['id', 'created_at', 'full_text', 'retweet_count', 'favorite_count',
                        'entities.hashtags', 'user.id', 'user.screen_name']
-    # Convert JSON to Dataframe
     dataframe = pd.json_normalize(json_data)
     dataframe['created_at'] = pd.to_datetime(dataframe['created_at']).dt.tz_convert(None)
     return dataframe[cols_to_include]
+
+
+def clean_tweet(tweet):
+    return tweet \
+        .replace('\n', ' ') \
+        .translate(str.maketrans('', '', string.punctuation)) \
+        .strip()
+
+
+@st.cache
+def predict_sentiment(tweet):
+    doc = nlp(tweet)
+    return doc.sentences[0].sentiment
 
 
 if __name__ == '__main__':
@@ -67,8 +80,9 @@ if __name__ == '__main__':
     df = json_to_dataframe(json_tweets)
 
     # Predict tweet sentiments using Stanza CNN classifier
-    # df['sentiment'] = df['full_text'].apply(lambda t : )
-    # print(nlp(df['full_text'][0]))
+    with st.spinner('Analyzing Sentiments...'):
+        df['sentiment'] = df['full_text'].apply(clean_tweet).apply(predict_sentiment)
+    st.balloons()
 
     # Start of Page Body
     st.write("""

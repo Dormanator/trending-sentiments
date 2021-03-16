@@ -34,12 +34,13 @@ def json_to_dataframe(json_data):
     cols_to_include = ['id', 'created_at', 'full_text', 'tweet', 'retweet_count', 'favorite_count',
                        'entities.hashtags', 'user.id', 'user.screen_name']
     dataframe = pd.json_normalize(json_data)
-    # TODO: add 'RT @user:' to full tweet text
-    retweet_map = ~dataframe['retweeted_status.full_text'].isnull()
-    end_of_user_tags = dataframe.loc[retweet_map, 'full_text'].str.index(':')
-    end_of_user_tags
-    #
+    # Get the entire tweet text w/o RT tag
     dataframe['tweet'] = dataframe['retweeted_status.full_text'].fillna(dataframe['full_text'])
+    # Replace full_text with complete none concatenated re-tweet including the original RT tag
+    retweet_mask = ~dataframe['retweeted_status.full_text'].isnull()
+    retweet_tags = dataframe.loc[retweet_mask, 'full_text'].apply(lambda s: s.split(':')[0])
+    dataframe.loc[retweet_mask, 'full_text'] = retweet_tags + ': ' + dataframe.loc[retweet_mask, 'tweet']
+    # Todo: fix Convert to local time
     dataframe['created_at'] = pd.to_datetime(dataframe['created_at']).dt.tz_convert(None)
     return dataframe[cols_to_include]
 
@@ -92,7 +93,7 @@ if __name__ == '__main__':
     with st.spinner('Analyzing Sentiments...'):
         df['sentiment'] = df['tweet'].map(clean_tweet).map(predict_sentiment)
     st.balloons()
-    st.write(df['tweet'][0], df['sentiment'][0])
+    st.write(df['full_text'][0], df['sentiment'][0])
 
     # Start of Page Body
     st.write("""

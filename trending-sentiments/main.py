@@ -3,8 +3,10 @@ import re
 import string
 
 import streamlit as st
+import altair as alt
 import tweepy
 import pandas as pd
+import numpy as np
 import stanza
 
 from dotenv import load_dotenv
@@ -34,16 +36,15 @@ def json_to_dataframe(json_data):
                        'entities.hashtags', 'user.id', 'user.screen_name']
     dataframe = pd.json_normalize(json_data)
     # If tweets exist
-    if dataframe['full_text']:
+    if 'full_text' in dataframe:
         # If re-tweets, get full original tweet and add RT tag
-        if dataframe['retweeted_status.full_text']:
+        if 'retweeted_status.full_text' in dataframe:
             dataframe['tweet'] = dataframe['retweeted_status.full_text'].fillna(dataframe['full_text'])
             retweet_mask = ~dataframe['retweeted_status.full_text'].isnull()
             retweet_tags = dataframe.loc[retweet_mask, 'full_text'].apply(lambda s: s.split(':')[0])
             dataframe.loc[retweet_mask, 'full_text'] = retweet_tags + ': ' + dataframe.loc[retweet_mask, 'tweet']
         else:
             dataframe['tweet'] = dataframe['full_text']
-        # Todo: fix Convert to local time
         dataframe['created_at'] = pd.to_datetime(dataframe['created_at'])
         return dataframe[cols_to_include]
 
@@ -59,22 +60,30 @@ def clean_tweet(tweet):
 
 @st.cache(show_spinner=True)
 def predict_sentiment(tweet):
-    doc = nlp(tweet)
-    return doc.sentences[0].sentiment
+    if tweet:
+        doc = nlp(tweet)
+        return doc.sentences[0].sentiment
+    else:
+        return 0
 
 
-def map_sentiment(sentiment_score):
-    sentiment = 'Neutral'
-    if sentiment_score == 0:
-        sentiment = 'Negative'
-    elif sentiment_score == 2:
-        sentiment = 'Positive'
-    return sentiment
+def map_sentiment(score):
+    category = 'Neutral'
+    if score == 0:
+        category = 'Negative'
+    elif score == 2:
+        category = 'Positive'
+    return category
 
 
 if __name__ == '__main__':
     # Setup Page Title
     st.set_page_config(page_title="Trending Sentiments", page_icon="📈", initial_sidebar_state="expanded", )
+    st.markdown(
+        """<style>
+            table {text-align: left !important}
+        </style>
+        """, unsafe_allow_html=True)
 
     # Setup Stanza NLP Model & Twitter API
     load_model()
@@ -107,26 +116,46 @@ if __name__ == '__main__':
         df['sentiment_text'] = df['sentiment'].map(map_sentiment)
         df['sentiment_text'].astype('category')
     st.balloons()
-    st.write(df['full_text'][0], df['sentiment_text'][0])
 
     # Start of Page Body
     st.write("""
     ## 100 Most Recent Tweets for:
     """, userInput)
 
-    # Todo: Frequency counts per minute/hour/day of pos & neg tweets
-    # Or, Stacked barchart of sentiment & intensity over time for tweets??
-    time_series_tweets_by_sentiment = df.groupby(df['created_at'].map(lambda x: x.replace(second=0)))['sentiment_text'] \
+    # Graph of Tweet Sentiment over time
+    tweets_by_sentiment = df.groupby(df['created_at'].map(lambda x: x.replace(second=0)))['sentiment_text'] \
         .value_counts() \
         .unstack(fill_value=0) \
         .reset_index()
-    time_series_tweets_by_sentiment
+    # Build tweet frequency by sentiment time series dataframe
+    time_and_sentiment = np.empty(shape=[0, 3])
+    for sentiment in ['Negative', 'Neutral', 'Positive']:
+        temp_df = tweets_by_sentiment[['created_at', sentiment]].copy()
+        temp_df['Sentiment'] = sentiment
+        temp_df['Sentiment'] = temp_df['Sentiment'].astype('category')
+        time_and_sentiment = np.vstack((time_and_sentiment, temp_df.to_numpy()))
+    df_time_and_sentiment = pd.DataFrame(time_and_sentiment, columns=['Created', 'Tweets', 'Sentiment'])
+    # Graph sentiment time series
+    chart_time_and_sentiment = alt.Chart(df_time_and_sentiment).mark_bar().encode(
+        x='Created',
+        y='sum(Tweets)',
+        color=alt.Color('Sentiment',
+                        sort=alt.EncodingSortField('Sentiment', order='ascending'),
+                        scale=alt.Scale(domain=['Positive', 'Neutral', 'Negative']),
+                        legend=alt.Legend(title="Sentiments")
+                        ),
+        order=alt.Order(
+            # Sort the segments of the bars by this field
+            'Sentiment',
+            sort='ascending'
+        )
+    )
     st.write("""
-    ### Frequency of Tweets
+    ### Tweet Frequency by Sentiment and Time Created
     """)
-    # st.line_chart(tweets_per_min)
+    st.altair_chart(chart_time_and_sentiment, use_container_width=True)
 
-    # Todo: Graph time_series_tweets_by_sentiment
+    # Todo: Interaction row
 
     # length of time period 100 most recent occurred in kpi (e.g., Occurred in 6 hours)
 
@@ -152,9 +181,21 @@ if __name__ == '__main__':
         """, num_users)
 
     # user with most tweets
-    user_max_tweets = user_counts[[0]].index.values[0]
-    count_max_tweets = user_counts[[0][0]]
+    user_max_tweets = user_counts.head(3).index.values
+    count_max_tweets = user_counts.head(3).values
+    df_top_tweets = pd.DataFrame({'User': user_max_tweets, 'Tweets': count_max_tweets})
+
     with col2:
         st.write("""
-        ### User with Most Tweets
-        """, '@', user_max_tweets, '&nbsp;&nbsp;&nbsp;&nbsp;', count_max_tweets)
+        ### Users with Most Tweets
+        """)
+        st.table(df_top_tweets.assign(hack='').set_index('hack'))
+
+    # Table With Tweets and Sentiment
+    with st.beta_expander("All Tweets Analyzed"):
+        st.table(df[['created_at', 'user.screen_name', 'full_text', 'sentiment_text']].rename(columns={
+            'created_at': 'Created',
+            'user.screen_name': 'User',
+            'full_text': 'Tweet',
+            'sentiment_text': 'Sentiment'
+        }))

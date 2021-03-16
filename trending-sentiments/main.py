@@ -33,15 +33,19 @@ def json_to_dataframe(json_data):
     cols_to_include = ['id', 'created_at', 'full_text', 'tweet', 'retweet_count', 'favorite_count',
                        'entities.hashtags', 'user.id', 'user.screen_name']
     dataframe = pd.json_normalize(json_data)
-    # Get the entire tweet text w/o RT tag
-    dataframe['tweet'] = dataframe['retweeted_status.full_text'].fillna(dataframe['full_text'])
-    # Replace full_text with complete none concatenated re-tweet including the original RT tag
-    retweet_mask = ~dataframe['retweeted_status.full_text'].isnull()
-    retweet_tags = dataframe.loc[retweet_mask, 'full_text'].apply(lambda s: s.split(':')[0])
-    dataframe.loc[retweet_mask, 'full_text'] = retweet_tags + ': ' + dataframe.loc[retweet_mask, 'tweet']
-    # Todo: fix Convert to local time
-    dataframe['created_at'] = pd.to_datetime(dataframe['created_at'])
-    return dataframe[cols_to_include]
+    # If tweets exist
+    if dataframe['full_text']:
+        # If re-tweets, get full original tweet and add RT tag
+        if dataframe['retweeted_status.full_text']:
+            dataframe['tweet'] = dataframe['retweeted_status.full_text'].fillna(dataframe['full_text'])
+            retweet_mask = ~dataframe['retweeted_status.full_text'].isnull()
+            retweet_tags = dataframe.loc[retweet_mask, 'full_text'].apply(lambda s: s.split(':')[0])
+            dataframe.loc[retweet_mask, 'full_text'] = retweet_tags + ': ' + dataframe.loc[retweet_mask, 'tweet']
+        else:
+            dataframe['tweet'] = dataframe['full_text']
+        # Todo: fix Convert to local time
+        dataframe['created_at'] = pd.to_datetime(dataframe['created_at'])
+        return dataframe[cols_to_include]
 
 
 def clean_tweet(tweet):

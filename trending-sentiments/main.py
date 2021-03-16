@@ -38,7 +38,7 @@ def json_to_dataframe(json_data):
     retweet_map = ~dataframe['retweeted_status.full_text'].isnull()
     end_of_user_tags = dataframe.loc[retweet_map, 'full_text'].str.index(':')
     end_of_user_tags
-    # 
+    #
     dataframe['tweet'] = dataframe['retweeted_status.full_text'].fillna(dataframe['full_text'])
     dataframe['created_at'] = pd.to_datetime(dataframe['created_at']).dt.tz_convert(None)
     return dataframe[cols_to_include]

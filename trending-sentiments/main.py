@@ -5,7 +5,6 @@ import string
 import streamlit as st
 import tweepy
 import pandas as pd
-import numpy as np
 import stanza
 
 from dotenv import load_dotenv
@@ -41,7 +40,7 @@ def json_to_dataframe(json_data):
     retweet_tags = dataframe.loc[retweet_mask, 'full_text'].apply(lambda s: s.split(':')[0])
     dataframe.loc[retweet_mask, 'full_text'] = retweet_tags + ': ' + dataframe.loc[retweet_mask, 'tweet']
     # Todo: fix Convert to local time
-    dataframe['created_at'] = pd.to_datetime(dataframe['created_at']).dt.tz_convert(None)
+    dataframe['created_at'] = pd.to_datetime(dataframe['created_at'])
     return dataframe[cols_to_include]
 
 
@@ -58,6 +57,15 @@ def clean_tweet(tweet):
 def predict_sentiment(tweet):
     doc = nlp(tweet)
     return doc.sentences[0].sentiment
+
+
+def map_sentiment(sentiment_score):
+    sentiment = 'Neutral'
+    if sentiment_score == 0:
+        sentiment = 'Negative'
+    elif sentiment_score == 2:
+        sentiment = 'Positive'
+    return sentiment
 
 
 if __name__ == '__main__':
@@ -92,8 +100,10 @@ if __name__ == '__main__':
     # Predict tweet sentiments using Stanza CNN classifier
     with st.spinner('Analyzing Sentiments...'):
         df['sentiment'] = df['tweet'].map(clean_tweet).map(predict_sentiment)
+        df['sentiment_text'] = df['sentiment'].map(map_sentiment)
+        df['sentiment_text'].astype('category')
     st.balloons()
-    st.write(df['full_text'][0], df['sentiment'][0])
+    st.write(df['full_text'][0], df['sentiment_text'][0])
 
     # Start of Page Body
     st.write("""
@@ -102,13 +112,17 @@ if __name__ == '__main__':
 
     # Todo: Frequency counts per minute/hour/day of pos & neg tweets
     # Or, Stacked barchart of sentiment & intensity over time for tweets??
-    tweets_per_min = df['created_at'].map(lambda x: x.replace(second=0)).value_counts()
+    time_series_tweets_by_sentiment = df.groupby(df['created_at'].map(lambda x: x.replace(second=0)))['sentiment_text'] \
+        .value_counts() \
+        .unstack(fill_value=0) \
+        .reset_index()
+    time_series_tweets_by_sentiment
     st.write("""
     ### Frequency of Tweets
     """)
-    st.line_chart(tweets_per_min)
+    # st.line_chart(tweets_per_min)
 
-    # Todo: Time period descriptive statistics row
+    # Todo: Graph time_series_tweets_by_sentiment
 
     # length of time period 100 most recent occurred in kpi (e.g., Occurred in 6 hours)
 

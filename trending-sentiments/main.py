@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Todo: refactor into services - TwitterService, TransformService, SentimentService ??
 
 @st.cache(show_spinner=True)
 def load_model():
@@ -151,7 +152,7 @@ if __name__ == '__main__':
         )
     )
     st.write("""
-    ### Tweet Frequency by Sentiment and Time Created
+    ### Tweets by Sentiment Over Time
     """)
     st.altair_chart(chart_time_and_sentiment, use_container_width=True)
 

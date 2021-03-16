@@ -1,5 +1,7 @@
-pandas
-python-dotenv
-streamlit
-tweepy
-stanza
+pandas~=1.2.3
+python-dotenv~=0.15.0
+streamlit~=0.78.0
+tweepy~=3.10.0
+stanza~=1.2
+altair~=4.1.0
+numpy~=1.20.1

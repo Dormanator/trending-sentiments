@@ -16,7 +16,6 @@ class TwitterService:
             auth = tweepy.AppAuthHandler(os.getenv('TWITTER_KEY'), os.getenv('TWITTER_SECRET_KEY'))
             self.api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
-    @st.cache(show_spinner=True)
     def search(self, query):
         results = self.api.search(q=query, count=100, tweet_mode='extended', result_type='recent')
         json_data = [r._json for r in results]

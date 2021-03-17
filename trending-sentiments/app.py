@@ -8,29 +8,20 @@ import numpy as np
 import stanza
 
 from twitter_service import TwitterService
+from transform_service import TransformService
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
-# Todo: refactor into services -  TransformService, NLPService
+# Todo: refactor into services -  TransformService
 
-@st.cache(show_spinner=True)
+@st.cache()
 def load_model():
     stanza.download('en', model_dir='./model')
 
 
-def clean_tweet(tweet):
-    # Remove whitespace between text, urls, punctuation, trailing whitespace
-    result = re.sub(r'\s+', ' ', tweet)
-    result = re.sub(r"https?://[A-Za-z0-9./]+", ' ', result)
-    return result \
-        .translate(str.maketrans('', '', string.punctuation)) \
-        .strip()
-
-
-@st.cache(show_spinner=True)
 def predict_sentiment(tweet):
     if tweet:
         doc = nlp(tweet)
@@ -39,30 +30,9 @@ def predict_sentiment(tweet):
         return 0
 
 
-def map_sentiment(score):
-    category = 'Neutral'
-    if score == 0:
-        category = 'Negative'
-    elif score == 2:
-        category = 'Positive'
-    return category
-
-
-def map_interaction(time_delta):
-    interaction_level = 'Very Low'
-    if pd.Timedelta("12 hours") <= time_delta < pd.Timedelta("1 days"):
-        interaction_level = 'Low'
-    elif pd.Timedelta("4 hours") <= time_delta < pd.Timedelta("12 hours"):
-        interaction_level = 'Medium'
-    elif pd.Timedelta("2 hours") <= time_delta < pd.Timedelta("4 hours"):
-        interaction_level = 'High'
-    elif time_delta < pd.Timedelta("2 hours"):
-        interaction_level = 'Very High'
-    return interaction_level
-
-
 if __name__ == '__main__':
     twitter = TwitterService()
+    transform = TransformService()
 
     # Setup Page Title
     st.set_page_config(page_title="Trending Sentiments", page_icon="📈", initial_sidebar_state="expanded", )
@@ -73,9 +43,10 @@ if __name__ == '__main__':
         """, unsafe_allow_html=True)
 
     # Setup Stanza NLP Model & Twitter API
-    twitter.connect()
-    load_model()
-    nlp = stanza.Pipeline(lang='en', processors='tokenize,sentiment')
+    with st.spinner('🔨 Getting everything ready...'):
+        twitter.connect()
+        load_model()
+        nlp = stanza.Pipeline(lang='en', processors='tokenize,sentiment')
 
     # Setup Page Header
     st.write("""
@@ -94,11 +65,15 @@ if __name__ == '__main__':
         st.warning('Please input a search value.')
         st.stop()
 
-    df = twitter.search(userInput)
+    with st.spinner('🔎 Searching for tweets...'):
+        df = twitter.search(userInput)
 
     # Predict tweet sentiments using Stanza CNN classifier
-    with st.spinner('Analyzing Sentiments...'):
-        df['sentiment_text'] = df['tweet'].map(clean_tweet).map(predict_sentiment).map(map_sentiment)
+    with st.spinner('⏳ Analyzing Sentiments. This may take a moment...'):
+        df['sentiment_text'] = df['tweet']\
+            .map(transform.clean_tweet)\
+            .map(predict_sentiment)\
+            .map(transform.map_sentiment)
         df['sentiment_text'].astype('category')
     st.balloons()
 
@@ -118,7 +93,7 @@ if __name__ == '__main__':
             """, time_range)
 
     # Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (<2)
-    interaction_description = map_interaction(time_range)
+    interaction_description = transform.map_interaction(time_range)
     with col2:
         st.write("""
             ### Interaction Level

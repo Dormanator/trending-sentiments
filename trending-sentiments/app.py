@@ -1,21 +1,19 @@
-import re
-import string
+import os
 
 import streamlit as st
+import stanza
+import tweepy
 import altair as alt
 import pandas as pd
 import numpy as np
-import stanza
-
-from twitter_service import TwitterService
-from transform_service import TransformService
 
 from dotenv import load_dotenv
+from transform_service import TransformService
 
 load_dotenv()
 
 
-# Todo: refactor into services -  TransformService
+# Todo: Move transformations into transformService
 
 @st.cache()
 def load_model():
@@ -30,8 +28,12 @@ def predict_sentiment(tweet):
         return 0
 
 
+def twitter_connect():
+    auth = tweepy.AppAuthHandler(os.getenv('TWITTER_KEY'), os.getenv('TWITTER_SECRET_KEY'))
+    return tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+
+
 if __name__ == '__main__':
-    twitter = TwitterService()
     transform = TransformService()
 
     # Setup Page Title
@@ -44,7 +46,7 @@ if __name__ == '__main__':
 
     # Setup Stanza NLP Model & Twitter API
     with st.spinner('🔨 Getting everything ready...'):
-        twitter.connect()
+        api = twitter_connect()
         load_model()
         nlp = stanza.Pipeline(lang='en', processors='tokenize,sentiment')
 
@@ -66,14 +68,16 @@ if __name__ == '__main__':
         st.stop()
 
     with st.spinner('🔎 Searching for tweets...'):
-        df = twitter.search(userInput)
+        results = api.search(q=userInput, count=100, tweet_mode='extended', result_type='recent')
+        json_data = [r._json for r in results]
+        df = transform.convert_json_to_dataframe(json_data)
 
     # Predict tweet sentiments using Stanza CNN classifier
-    with st.spinner('⏳ Analyzing Sentiments. This may take a moment...'):
-        df['sentiment_text'] = df['tweet']\
-            .map(transform.clean_tweet)\
-            .map(predict_sentiment)\
-            .map(transform.map_sentiment)
+    with st.spinner('⏳ Analyzing sentiments. This may take a moment...'):
+        df['sentiment_text'] = df['tweet'] \
+            .map(transform.clean_tweet) \
+            .map(predict_sentiment) \
+            .map(transform.map_sentiment_label)
         df['sentiment_text'].astype('category')
     st.balloons()
 
@@ -82,24 +86,24 @@ if __name__ == '__main__':
     ## 100 Most Recent Tweets for:
     """, userInput)
 
-    # Interaction row
+    # Row: Interaction descriptive stats
     col1, col2, col3 = st.beta_columns(3)
 
-    # length of time period 100 most recent occurred
+    # Col: length of time period 100 most recent occurred
     time_range = df['created_at'].max() - df['created_at'].min()
     with col1:
         st.write("""
             ### Occurred Over
             """, time_range)
 
-    # Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (<2)
-    interaction_description = transform.map_interaction(time_range)
+    # Col: Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (<2)
+    interaction_description = transform.map_interaction_label(time_range)
     with col2:
         st.write("""
             ### Interaction Level
             """, interaction_description)
 
-    # Sentiment most seen across the sample
+    # Col: Sentiment most seen across the sample
     most_common_sentiment = df['sentiment_text'].mode()[0]
     with col3:
         st.write("""
@@ -124,7 +128,7 @@ if __name__ == '__main__':
         temp_df['Sentiment'] = temp_df['Sentiment'].astype('category')
         time_and_sentiment = np.vstack((time_and_sentiment, temp_df.to_numpy()))
     df_time_and_sentiment = pd.DataFrame(time_and_sentiment, columns=['Created', 'Tweets', 'Sentiment'])
-    # Graph sentiment time series
+    # Row: Graph of predictive sentiment time series
     chart_time_and_sentiment = alt.Chart(df_time_and_sentiment).mark_bar().encode(
         x='Created',
         y='sum(Tweets)',
@@ -153,10 +157,10 @@ if __name__ == '__main__':
 
     # most re-tweeted tweet & sentiment
 
-    # User descriptive statistics row
+    # Row: User descriptive stats
     col1, col2 = st.beta_columns(2)
 
-    # Number of unique users
+    # Col: Number of unique users
     user_counts = df['user.screen_name'].value_counts()
     num_users = user_counts.size
     with col1:
@@ -164,7 +168,7 @@ if __name__ == '__main__':
         ### Unique Users
         """, num_users)
 
-    # User with most tweets
+    # Col: User with most tweets
     user_max_tweets = user_counts.head(3).index.values
     count_max_tweets = user_counts.head(3).values
     df_top_tweets = pd.DataFrame({'User': user_max_tweets, 'Tweets': count_max_tweets})
@@ -174,7 +178,7 @@ if __name__ == '__main__':
         """)
         st.table(df_top_tweets.assign(hack='').set_index('hack'))
 
-    # Table with sample data including Created, User, Tweet, Sentiment for each point
+    # Row: Table with all sample data records
     with st.beta_expander("All Tweets Analyzed"):
         st.table(df[['created_at', 'user.screen_name', 'full_text', 'sentiment_text']].rename(columns={
             'created_at': 'Created',

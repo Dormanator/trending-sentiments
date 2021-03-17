@@ -1,53 +1,24 @@
-import os
 import re
 import string
 
 import streamlit as st
 import altair as alt
-import tweepy
 import pandas as pd
 import numpy as np
 import stanza
+
+from twitter_service import TwitterService
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# Todo: refactor into services - TwitterService, TransformService, SentimentService ??
+
+# Todo: refactor into services -  TransformService, NLPService
 
 @st.cache(show_spinner=True)
 def load_model():
     stanza.download('en', model_dir='./model')
-
-
-def connect():
-    auth = tweepy.AppAuthHandler(os.getenv('TWITTER_KEY'), os.getenv('TWITTER_SECRET_KEY'))
-    return tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-
-
-@st.cache(show_spinner=True)
-def search(query):
-    results = api.search(q=query, count=100, tweet_mode='extended', result_type='recent')
-    json_data = [r._json for r in results]
-    return json_data
-
-
-def json_to_dataframe(json_data):
-    cols_to_include = ['id', 'created_at', 'full_text', 'tweet', 'retweet_count', 'favorite_count',
-                       'entities.hashtags', 'user.id', 'user.screen_name']
-    dataframe = pd.json_normalize(json_data)
-    # If tweets exist
-    if 'full_text' in dataframe:
-        # If re-tweets, get full original tweet and add RT tag
-        if 'retweeted_status.full_text' in dataframe:
-            dataframe['tweet'] = dataframe['retweeted_status.full_text'].fillna(dataframe['full_text'])
-            retweet_mask = ~dataframe['retweeted_status.full_text'].isnull()
-            retweet_tags = dataframe.loc[retweet_mask, 'full_text'].apply(lambda s: s.split(':')[0])
-            dataframe.loc[retweet_mask, 'full_text'] = retweet_tags + ': ' + dataframe.loc[retweet_mask, 'tweet']
-        else:
-            dataframe['tweet'] = dataframe['full_text']
-        dataframe['created_at'] = pd.to_datetime(dataframe['created_at'])
-        return dataframe[cols_to_include]
 
 
 def clean_tweet(tweet):
@@ -77,7 +48,22 @@ def map_sentiment(score):
     return category
 
 
+def map_interaction(time_delta):
+    interaction_level = 'Very Low'
+    if pd.Timedelta("12 hours") <= time_delta < pd.Timedelta("1 days"):
+        interaction_level = 'Low'
+    elif pd.Timedelta("4 hours") <= time_delta < pd.Timedelta("12 hours"):
+        interaction_level = 'Medium'
+    elif pd.Timedelta("2 hours") <= time_delta < pd.Timedelta("4 hours"):
+        interaction_level = 'High'
+    elif time_delta < pd.Timedelta("2 hours"):
+        interaction_level = 'Very High'
+    return interaction_level
+
+
 if __name__ == '__main__':
+    twitter = TwitterService()
+
     # Setup Page Title
     st.set_page_config(page_title="Trending Sentiments", page_icon="📈", initial_sidebar_state="expanded", )
     st.markdown(
@@ -87,9 +73,9 @@ if __name__ == '__main__':
         """, unsafe_allow_html=True)
 
     # Setup Stanza NLP Model & Twitter API
+    twitter.connect()
     load_model()
     nlp = stanza.Pipeline(lang='en', processors='tokenize,sentiment')
-    api = connect()
 
     # Setup Page Header
     st.write("""
@@ -108,13 +94,11 @@ if __name__ == '__main__':
         st.warning('Please input a search value.')
         st.stop()
 
-    json_tweets = search(userInput)
-    df = json_to_dataframe(json_tweets)
+    df = twitter.search(userInput)
 
     # Predict tweet sentiments using Stanza CNN classifier
     with st.spinner('Analyzing Sentiments...'):
-        df['sentiment'] = df['tweet'].map(clean_tweet).map(predict_sentiment)
-        df['sentiment_text'] = df['sentiment'].map(map_sentiment)
+        df['sentiment_text'] = df['tweet'].map(clean_tweet).map(predict_sentiment).map(map_sentiment)
         df['sentiment_text'].astype('category')
     st.balloons()
 
@@ -123,12 +107,41 @@ if __name__ == '__main__':
     ## 100 Most Recent Tweets for:
     """, userInput)
 
-    # Graph of Tweet Sentiment over time
+    # Interaction row
+    col1, col2, col3 = st.beta_columns(3)
+
+    # length of time period 100 most recent occurred
+    time_range = df['created_at'].max() - df['created_at'].min()
+    with col1:
+        st.write("""
+            ### Occurred Over
+            """, time_range)
+
+    # Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (<2)
+    interaction_description = map_interaction(time_range)
+    with col2:
+        st.write("""
+            ### Interaction Level
+            """, interaction_description)
+
+    # Sentiment most seen across the sample
+    most_common_sentiment = df['sentiment_text'].mode()[0]
+    with col3:
+        st.write("""
+            ### Overall Sentiment
+            """, most_common_sentiment)
+
+    # Get counts per sentiment level for every timestamp to the minute
+    # Df with shape: created_at           Negative  Neutral   Positive
+    #                2000-01-01 12:34:00  1         0         2
     tweets_by_sentiment = df.groupby(df['created_at'].map(lambda x: x.replace(second=0)))['sentiment_text'] \
         .value_counts() \
         .unstack(fill_value=0) \
         .reset_index()
     # Build tweet frequency by sentiment time series dataframe
+    # Df with shape: Created              Tweets    Sentiment
+    #                2000-01-01 12:34:00  2         Positive
+    #                2000-01-01 12:34:00  1         Negative
     time_and_sentiment = np.empty(shape=[0, 3])
     for sentiment in ['Negative', 'Neutral', 'Positive']:
         temp_df = tweets_by_sentiment[['created_at', sentiment]].copy()
@@ -149,18 +162,13 @@ if __name__ == '__main__':
             # Sort the segments of the bars by this field
             'Sentiment',
             sort='ascending'
-        )
+        ),
+        tooltip=['Tweets', 'Created']
     )
     st.write("""
-    ### Tweets by Sentiment Over Time
+    ### Sentiment Frequency Over Time
     """)
     st.altair_chart(chart_time_and_sentiment, use_container_width=True)
-
-    # Todo: Interaction row
-
-    # length of time period 100 most recent occurred in kpi (e.g., Occurred in 6 hours)
-
-    # Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (1)
 
     # Todo: Tweet descriptive statistics row
 
@@ -172,27 +180,26 @@ if __name__ == '__main__':
 
     # User descriptive statistics row
     col1, col2 = st.beta_columns(2)
-    user_counts = df['user.screen_name'].value_counts()
 
-    # number of unique users kpi
+    # Number of unique users
+    user_counts = df['user.screen_name'].value_counts()
     num_users = user_counts.size
     with col1:
         st.write("""
         ### Unique Users
         """, num_users)
 
-    # user with most tweets
+    # User with most tweets
     user_max_tweets = user_counts.head(3).index.values
     count_max_tweets = user_counts.head(3).values
     df_top_tweets = pd.DataFrame({'User': user_max_tweets, 'Tweets': count_max_tweets})
-
     with col2:
         st.write("""
         ### Users with Most Tweets
         """)
         st.table(df_top_tweets.assign(hack='').set_index('hack'))
 
-    # Table With Tweets and Sentiment
+    # Table with sample data including Created, User, Tweet, Sentiment for each point
     with st.beta_expander("All Tweets Analyzed"):
         st.table(df[['created_at', 'user.screen_name', 'full_text', 'sentiment_text']].rename(columns={
             'created_at': 'Created',

@@ -133,13 +133,24 @@ if __name__ == '__main__':
     """)
     st.altair_chart(chart_sentiment_by_time, use_container_width=True)
 
-    # Todo: Tweet descriptive statistics row
+    # Todo: Row: Top Tweets descriptive stats row
+    col1, col2 = st.beta_columns(2)
 
-    # top 5 hashtags bar chart
+    # todo: top 5 hashtags bar chart
 
     # favorite tweet & sentiment
+    top_favorite = df.loc[df['favorite_count'].max()] # do better? format better?
+    with col1:
+        st.write("""
+        ### Top Favorite
+        """, top_favorite['sentiment_text'], top_favorite['full_text'], '@' + top_favorite['user.screen_name'])
 
     # most re-tweeted tweet & sentiment
+    # top_retweet = df.loc[df['retweet_count'].max()]
+    with col2:
+        st.write("""
+        ### Top Re-Tweet
+        """,)
 
     # Row: User descriptive stats
     col1, col2 = st.beta_columns(2)

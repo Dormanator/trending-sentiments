@@ -82,8 +82,8 @@ if __name__ == '__main__':
 
     # Start of Page Body
     st.write("""
-    ## 100 Most Recent Tweets for: {}
-    """.format(userInput))
+    ## 100 Most Recent Tweets for: <u>{}</u>
+    """.format(userInput), unsafe_allow_html=True)
 
     # Row: Interaction descriptive stats
     col1, col2, col3 = st.beta_columns(3)
@@ -133,19 +133,17 @@ if __name__ == '__main__':
     """)
     st.altair_chart(chart_sentiment_by_time, use_container_width=True)
 
-    # Todo: Row: Top Tweets descriptive stats row
+    # Row: Top Tweets descriptive stats row
     col1, col2 = st.beta_columns(2)
 
-    # todo: top 5 hashtags bar chart
-
-    # favorite tweet & sentiment
-    top_favorite = df.loc[df['favorite_count'] == df['favorite_count'].max()] # do better? format better?
+    # Top favorite & sentiment
+    top_favorite = df.loc[df['favorite_count'] == df['favorite_count'].max()]
     with col1:
         st.write("""
         ### Top Favorite Tweet   
         """)
         st.write("""
-        {}  
+        **Text:** {}  
         **User:** {}  
         **Sentiment:** {}    
         """.format(
@@ -154,14 +152,14 @@ if __name__ == '__main__':
             top_favorite['sentiment_text'].values[0]
         ))
 
-    # most re-tweeted tweet & sentiment
+    # Col: Top re-tweet & sentiment
     top_retweet = df.loc[df['retweet_count'] == df['retweet_count'].max()]
     with col2:
         st.write("""
         ### Top Re-Tweet
         """)
         st.write("""
-        {}  
+        **Text:** {}  
         **User:** {}  
         **Sentiment:** {}    
         """.format(
@@ -169,6 +167,8 @@ if __name__ == '__main__':
             top_retweet['user.screen_name'].values[0],
             top_retweet['sentiment_text'].values[0]
         ))
+
+    # todo: Row: Top hashtags bar chart
 
     # Row: User descriptive stats
     col1, col2 = st.beta_columns(2)

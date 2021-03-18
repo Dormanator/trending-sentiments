@@ -5,7 +5,6 @@ import stanza
 import tweepy
 import altair as alt
 import pandas as pd
-import numpy as np
 
 from dotenv import load_dotenv
 from transform_service import TransformService
@@ -25,7 +24,7 @@ def predict_sentiment(tweet):
         doc = nlp(tweet)
         return doc.sentences[0].sentiment
     else:
-        return 0
+        return 1
 
 
 def twitter_connect():
@@ -79,7 +78,7 @@ if __name__ == '__main__':
             .map(predict_sentiment) \
             .map(transform.map_sentiment_label)
         df['sentiment_text'].astype('category')
-    st.balloons()
+        st.balloons()
 
     # Start of Page Body
     st.write("""
@@ -110,29 +109,14 @@ if __name__ == '__main__':
             ### Overall Sentiment
             """, most_common_sentiment)
 
-    # Get counts per sentiment level for every timestamp to the minute
-    # Df with shape: created_at           Negative  Neutral   Positive
-    #                2000-01-01 12:34:00  1         0         2
-    tweets_by_sentiment = df.groupby(df['created_at'].map(lambda x: x.replace(second=0)))['sentiment_text'] \
-        .value_counts() \
-        .unstack(fill_value=0) \
-        .reset_index()
-    # Build tweet frequency by sentiment time series dataframe
-    # Df with shape: Created              Tweets    Sentiment
-    #                2000-01-01 12:34:00  2         Positive
-    #                2000-01-01 12:34:00  1         Negative
-    time_and_sentiment = np.empty(shape=[0, 3])
-    for sentiment in ['Negative', 'Neutral', 'Positive']:
-        temp_df = tweets_by_sentiment[['created_at', sentiment]].copy()
-        temp_df['Sentiment'] = sentiment
-        temp_df['Sentiment'] = temp_df['Sentiment'].astype('category')
-        time_and_sentiment = np.vstack((time_and_sentiment, temp_df.to_numpy()))
-    df_time_and_sentiment = pd.DataFrame(time_and_sentiment, columns=['Created', 'Tweets', 'Sentiment'])
     # Row: Graph of predictive sentiment time series
-    chart_time_and_sentiment = alt.Chart(df_time_and_sentiment).mark_bar().encode(
+    df_sentiment_by_time = transform.gen_sentiment_by_time_dataframe(df)
+    # Create stacked bar chart
+    chart_sentiment_by_time = alt.Chart(df_sentiment_by_time).mark_bar().encode(
         x='Created',
         y='sum(Tweets)',
         color=alt.Color('Sentiment',
+                        # Setup color by sentiment category
                         sort=alt.EncodingSortField('Sentiment', order='ascending'),
                         scale=alt.Scale(domain=['Positive', 'Neutral', 'Negative']),
                         legend=alt.Legend(title="Sentiments")
@@ -147,7 +131,7 @@ if __name__ == '__main__':
     st.write("""
     ### Sentiment Frequency Over Time
     """)
-    st.altair_chart(chart_time_and_sentiment, use_container_width=True)
+    st.altair_chart(chart_sentiment_by_time, use_container_width=True)
 
     # Todo: Tweet descriptive statistics row
 

@@ -55,3 +55,25 @@ class TransformService:
         elif time_delta < pd.Timedelta("2 hours"):
             interaction_level = 'Very High'
         return interaction_level
+
+    # Generate a dataframe with sentiment time series formatted for use in a altair chart
+    def gen_sentiment_by_time_dataframe(self, dataframe):
+        dataframe = dataframe.copy()
+        # Get counts per sentiment level for every timestamp to the minute
+        # Df with shape: created_at           Negative  Neutral   Positive
+        #                2000-01-01 12:34:00  1         0         2
+        tweets_by_sentiment = dataframe.groupby(dataframe['created_at'].map(lambda x: x.replace(second=0)))['sentiment_text']\
+            .value_counts()\
+            .unstack(fill_value=0)\
+            .reset_index()
+        # Build tweet frequency by sentiment time series dataframe
+        # Df with shape: Created              Tweets    Sentiment
+        #                2000-01-01 12:34:00  2         Positive
+        #                2000-01-01 12:34:00  1         Negative
+        time_and_sentiment = np.empty(shape=[0, 3])
+        for sentiment in ['Negative', 'Neutral', 'Positive']:
+            temp_df = tweets_by_sentiment[['created_at', sentiment]].copy()
+            temp_df['Sentiment'] = sentiment
+            temp_df['Sentiment'] = temp_df['Sentiment'].astype('category')
+            time_and_sentiment = np.vstack((time_and_sentiment, temp_df.to_numpy()))
+        return pd.DataFrame(time_and_sentiment, columns=['Created', 'Tweets', 'Sentiment'])

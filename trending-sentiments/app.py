@@ -82,8 +82,8 @@ if __name__ == '__main__':
 
     # Start of Page Body
     st.write("""
-    ## 100 Most Recent Tweets for:
-    """, userInput)
+    ## 100 Most Recent Tweets for: {}
+    """.format(userInput))
 
     # Row: Interaction descriptive stats
     col1, col2, col3 = st.beta_columns(3)
@@ -93,7 +93,7 @@ if __name__ == '__main__':
     with col1:
         st.write("""
             ### Occurred Over
-            """, time_range)
+            """, str(time_range))
 
     # Col: Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (<2)
     interaction_description = transform.map_interaction_label(time_range)
@@ -139,18 +139,36 @@ if __name__ == '__main__':
     # todo: top 5 hashtags bar chart
 
     # favorite tweet & sentiment
-    top_favorite = df.loc[df['favorite_count'].max()] # do better? format better?
+    top_favorite = df.loc[df['favorite_count'] == df['favorite_count'].max()] # do better? format better?
     with col1:
         st.write("""
-        ### Top Favorite
-        """, top_favorite['sentiment_text'], top_favorite['full_text'], '@' + top_favorite['user.screen_name'])
+        ### Top Favorite Tweet   
+        """)
+        st.write("""
+        {}  
+        **User:** {}  
+        **Sentiment:** {}    
+        """.format(
+            top_favorite['full_text'].values[0],
+            top_favorite['user.screen_name'].values[0],
+            top_favorite['sentiment_text'].values[0]
+        ))
 
     # most re-tweeted tweet & sentiment
-    # top_retweet = df.loc[df['retweet_count'].max()]
+    top_retweet = df.loc[df['retweet_count'] == df['retweet_count'].max()]
     with col2:
         st.write("""
         ### Top Re-Tweet
-        """,)
+        """)
+        st.write("""
+        {}  
+        **User:** {}  
+        **Sentiment:** {}    
+        """.format(
+            top_retweet['full_text'].values[0],
+            top_retweet['user.screen_name'].values[0],
+            top_retweet['sentiment_text'].values[0]
+        ))
 
     # Row: User descriptive stats
     col1, col2 = st.beta_columns(2)
@@ -161,7 +179,7 @@ if __name__ == '__main__':
     with col1:
         st.write("""
         ### Unique Users
-        """, num_users)
+        """, str(num_users))
 
     # Col: User with most tweets
     user_max_tweets = user_counts.head(3).index.values

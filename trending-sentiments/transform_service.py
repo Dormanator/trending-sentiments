@@ -35,13 +35,6 @@ class TransformService:
             .strip()
 
     # Map sentiment scores to text labels
-    # def map_sentiment_label(self, score):
-    #     category = 'Neutral'
-    #     if score == 0:
-    #         category = 'Negative'
-    #     elif score == 1:
-    #         category = 'Positive'
-    #     return category
     def map_sentiment_label(self, score):
         category = 'Neutral'
         if score <= .4:

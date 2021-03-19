@@ -2,8 +2,9 @@ pandas~=1.2.3
 python-dotenv~=0.15.0
 streamlit~=0.78.0
 tweepy~=3.10.0
-stanza~=1.2
 altair~=4.1.0
 numpy~=1.20.1
-tensorflow~=2.4.1
-tensorflow-text~=2.4.1
+tensorflow~=2.4.1; sys_platform == "linux"
+tensorflow-text~=2.4.1; sys_platform == "linux"
+tf-nightly~=2.5.0; sys_platform == "Windows"
+tensorflow-text-nightly~=2.5.0; sys_platform == "Windows"

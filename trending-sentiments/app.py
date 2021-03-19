@@ -1,11 +1,18 @@
 import os
 
 import streamlit as st
-# import stanza
-import tensorflow as tf
 import tweepy
 import altair as alt
 import pandas as pd
+import numpy as np
+
+# Import correct TF on Win & Linux
+try:
+    import tf_nightly as tf
+    import tensorflow_text_nightly as text
+except ImportError:
+    import tensorflow as tf
+    import tensorflow_text as text
 
 from dotenv import load_dotenv
 from transform_service import TransformService
@@ -15,17 +22,8 @@ load_dotenv()
 
 @st.cache()
 def load_model():
-    # stanza.download('en', model_dir='./stanza_model')
     model = tf.saved_model.load('./bert_model')
     return model
-
-
-# def predict_sentiment(tweet):
-#     if tweet:
-#         doc = nlp(tweet)
-#         return doc.sentences[0].sentiment
-#     else:
-#         return 1
 
 
 def twitter_connect():
@@ -36,7 +34,7 @@ def twitter_connect():
 if __name__ == '__main__':
     transform = TransformService()
 
-    # Setup Page Title
+    # Setup Page Title and Styles
     st.set_page_config(page_title="Trending Sentiments", page_icon="📈", initial_sidebar_state="expanded", )
     st.markdown(
         """<style>
@@ -44,7 +42,7 @@ if __name__ == '__main__':
         </style>
         """, unsafe_allow_html=True)
 
-    # Setup Stanza NLP Model & Twitter API
+    # Setup Sentiment Prediction Model & Twitter API
     with st.spinner('🔨 Getting everything ready...'):
         api = twitter_connect()
         sentiment_model = load_model()
@@ -80,8 +78,8 @@ if __name__ == '__main__':
         #     .map(transform.map_sentiment_label)
         clean_tweets = df['tweet'].map(transform.clean_tweet).to_list()
         sentiment_scores = tf.sigmoid(sentiment_model(tf.constant(clean_tweets)))
-        df['sentiment_scores'] = sentiment_scores
-        df['sentiment_text'] = df['sentiment_scores'].map(transform.map_sentiment_label)
+        df['sentiment_score'] = np.array(sentiment_scores).flatten()
+        df['sentiment_text'] = df['sentiment_score'].map(transform.map_sentiment_label)
         df['sentiment_text'].astype('category')
         st.balloons()
 
@@ -207,9 +205,11 @@ if __name__ == '__main__':
 
     # Row: Table with all sample data records
     with st.beta_expander("All Tweets Analyzed"):
-        st.table(df[['created_at', 'user.screen_name', 'full_text', 'sentiment_text']].rename(columns={
-            'created_at': 'Created',
-            'user.screen_name': 'User',
-            'full_text': 'Tweet',
-            'sentiment_text': 'Sentiment'
-        }))
+        st.table(
+            df[['created_at', 'user.screen_name', 'full_text', 'sentiment_text', 'sentiment_score']].rename(columns={
+                'created_at': 'Created',
+                'user.screen_name': 'User',
+                'full_text': 'Tweet',
+                'sentiment_text': 'Sentiment',
+                'sentiment_score': 'Sentiment Score'
+            }))

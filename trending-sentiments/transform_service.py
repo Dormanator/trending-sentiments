@@ -35,11 +35,18 @@ class TransformService:
             .strip()
 
     # Map sentiment scores to text labels
+    # def map_sentiment_label(self, score):
+    #     category = 'Neutral'
+    #     if score == 0:
+    #         category = 'Negative'
+    #     elif score == 1:
+    #         category = 'Positive'
+    #     return category
     def map_sentiment_label(self, score):
         category = 'Neutral'
-        if score == 0:
+        if score >= .6:
             category = 'Negative'
-        elif score == 2:
+        elif score <= .4:
             category = 'Positive'
         return category
 
@@ -62,9 +69,10 @@ class TransformService:
         # Get counts per sentiment level for every timestamp to the minute
         # Df with shape: created_at           Negative  Neutral   Positive
         #                2000-01-01 12:34:00  1         0         2
-        tweets_by_sentiment = dataframe.groupby(dataframe['created_at'].map(lambda x: x.replace(second=0)))['sentiment_text']\
-            .value_counts()\
-            .unstack(fill_value=0)\
+        tweets_by_sentiment = dataframe.groupby(dataframe['created_at'].map(lambda x: x.replace(second=0)))[
+            'sentiment_text'] \
+            .value_counts() \
+            .unstack(fill_value=0) \
             .reset_index()
         # Build tweet frequency by sentiment time series dataframe
         # Df with shape: Created              Tweets    Sentiment
@@ -77,3 +85,24 @@ class TransformService:
             temp_df['Sentiment'] = temp_df['Sentiment'].astype('category')
             time_and_sentiment = np.vstack((time_and_sentiment, temp_df.to_numpy()))
         return pd.DataFrame(time_and_sentiment, columns=['Created', 'Tweets', 'Sentiment'])
+
+    def _flatten_hashtag_arr(self, arr):
+        flat_entities = []
+        for entity in arr:
+            hashtag_entry = [d['text'] for d in entity]
+            flat_entities.append(hashtag_entry)
+        return [hashtag for sublist in flat_entities for hashtag in sublist]
+
+    def gen_hashtag_counts_dataframe(self, dataframe):
+        hashtags = self._flatten_hashtag_arr(dataframe['entities.hashtags'].to_list())
+        df_hashtags = pd.DataFrame({'Hashtag': pd.Series(hashtags, dtype='str'),
+                                    'Count': pd.Series(np.ones(len(hashtags)), dtype='int')},
+                                   columns=['Hashtag', 'Count'])
+        # Build dataframe with hashtag counts
+        # Df with shape: Hashtag    Count
+        #                avatar     54
+        #                nfl        32
+        return df_hashtags.groupby(df_hashtags['Hashtag'].map(lambda s: s.lower()))\
+            .sum() \
+            .sort_values(by=['Count'], ascending=False) \
+            .reset_index()

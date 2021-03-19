@@ -1,2 +1,3 @@
-/model
+/stanza_model
+/bert_model
 .ipynb_*

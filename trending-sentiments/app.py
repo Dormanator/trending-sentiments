@@ -1,7 +1,9 @@
 import os
 
 import streamlit as st
-import stanza
+# import stanza
+import tensorflow as tf
+import tensorflow_text as text
 import tweepy
 import altair as alt
 import pandas as pd
@@ -12,19 +14,19 @@ from transform_service import TransformService
 load_dotenv()
 
 
-# Todo: Move transformations into transformService
-
 @st.cache()
 def load_model():
-    stanza.download('en', model_dir='./model')
+    # stanza.download('en', model_dir='./stanza_model')
+    model = tf.saved_model.load('./bert_model')
+    return model
 
 
-def predict_sentiment(tweet):
-    if tweet:
-        doc = nlp(tweet)
-        return doc.sentences[0].sentiment
-    else:
-        return 1
+# def predict_sentiment(tweet):
+#     if tweet:
+#         doc = nlp(tweet)
+#         return doc.sentences[0].sentiment
+#     else:
+#         return 1
 
 
 def twitter_connect():
@@ -46,8 +48,8 @@ if __name__ == '__main__':
     # Setup Stanza NLP Model & Twitter API
     with st.spinner('🔨 Getting everything ready...'):
         api = twitter_connect()
-        load_model()
-        nlp = stanza.Pipeline(lang='en', processors='tokenize,sentiment')
+        sentiment_model = load_model()
+        # nlp = stanza.Pipeline(lang='en', processors='tokenize,sentiment')
 
     # Setup Page Header
     st.write("""
@@ -73,10 +75,14 @@ if __name__ == '__main__':
 
     # Predict tweet sentiments using Stanza CNN classifier
     with st.spinner('⏳ Analyzing sentiments. This may take a moment...'):
-        df['sentiment_text'] = df['tweet'] \
-            .map(transform.clean_tweet) \
-            .map(predict_sentiment) \
-            .map(transform.map_sentiment_label)
+        # df['sentiment_text'] = df['tweet'] \
+        #     .map(transform.clean_tweet) \
+        #     .map(predict_sentiment) \
+        #     .map(transform.map_sentiment_label)
+        clean_tweets = df['tweet'].map(transform.clean_tweet).to_list()
+        sentiment_scores = tf.sigmoid(sentiment_model(tf.constant(clean_tweets)))
+        df['sentiment_scores'] = sentiment_scores
+        df['sentiment_text'] = df['sentiment_scores'].map(transform.map_sentiment_label)
         df['sentiment_text'].astype('category')
         st.balloons()
 
@@ -114,7 +120,7 @@ if __name__ == '__main__':
     # Create stacked bar chart
     chart_sentiment_by_time = alt.Chart(df_sentiment_by_time).mark_bar().encode(
         x='Created',
-        y='sum(Tweets)',
+        y=alt.Y('sum(Tweets)', axis=alt.Axis(title="Count")),
         color=alt.Color('Sentiment',
                         # Setup color by sentiment category
                         sort=alt.EncodingSortField('Sentiment', order='ascending'),
@@ -168,7 +174,16 @@ if __name__ == '__main__':
             top_retweet['sentiment_text'].values[0]
         ))
 
-    # todo: Row: Top hashtags bar chart
+    # Row: Top hashtags bar chart
+    df_top_hashtags = transform.gen_hashtag_counts_dataframe(df)
+    chart_top_hashtags = alt.Chart(df_top_hashtags.head(5)).mark_bar().encode(
+        x='Count',
+        y=alt.Y('Hashtag', axis=alt.Axis(title=""))) \
+        .configure_axis(labelFontSize=12)
+    st.write("""
+    ### Top 5 Hashtags
+    """)
+    st.altair_chart(chart_top_hashtags, use_container_width=True)
 
     # Row: User descriptive stats
     col1, col2 = st.beta_columns(2)

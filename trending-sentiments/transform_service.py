@@ -44,9 +44,9 @@ class TransformService:
     #     return category
     def map_sentiment_label(self, score):
         category = 'Neutral'
-        if score >= .6:
+        if score <= .4:
             category = 'Negative'
-        elif score <= .4:
+        elif score >= .6:
             category = 'Positive'
         return category
 

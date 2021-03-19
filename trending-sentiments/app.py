@@ -3,7 +3,6 @@ import os
 import streamlit as st
 # import stanza
 import tensorflow as tf
-import tensorflow_text as text
 import tweepy
 import altair as alt
 import pandas as pd

@@ -1,1 +1,1 @@
-https://drive.google.com/file/d/17gwlG5yFQFfGF_ZyTx3K-npHHfv2h9fq/view?usp=sharing
+https://storage.googleapis.com/trending-sentiments/bert_model.zip

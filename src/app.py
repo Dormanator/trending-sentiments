@@ -15,15 +15,14 @@ except ImportError:
     import tensorflow as tf
     import tensorflow_text as text
 
+from transform_service import TransformService
+
 # Only use dotenv in dev
 try:
     from dotenv import load_dotenv
+    load_dotenv()
 except ImportError:
     print("dotenv not found. Using sys env vars...")
-
-from transform_service import TransformService
-
-load_dotenv()
 
 
 @st.cache(show_spinner=False)

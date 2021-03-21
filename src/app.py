@@ -19,6 +19,11 @@ from transform_service import TransformService
 
 load_dotenv()
 
+def download_model():
+    # check for model dir
+    # if exists do nothing
+    # if not exists download zip and extract to ./bert_model
+    pass
 
 @st.cache()
 def load_model():
@@ -35,7 +40,7 @@ if __name__ == '__main__':
     transform = TransformService()
 
     # Setup Page Title and Styles
-    st.set_page_config(page_title="Trending Sentiments", page_icon="📈", initial_sidebar_state="expanded", )
+    st.set_page_config(page_title='Trending Sentiments', page_icon='📈', initial_sidebar_state='expanded', )
     st.markdown(
         """<style>
             table {text-align: left !important}
@@ -174,8 +179,8 @@ if __name__ == '__main__':
     # Row: Top hashtags bar chart
     df_top_hashtags = transform.gen_hashtag_counts_dataframe(df)
     chart_top_hashtags = alt.Chart(df_top_hashtags.head(5)).mark_bar().encode(
-        x='Count',
-        y=alt.Y('Hashtag', axis=alt.Axis(title=""))) \
+        x=alt.X('Count', axis=alt.Axis(tickMinStep=1)),
+        y=alt.Y('Hashtag', axis=alt.Axis(title=""), sort='-x')) \
         .configure_axis(labelFontSize=12)
     st.write("""
     ### Top 5 Hashtags
@@ -205,7 +210,7 @@ if __name__ == '__main__':
 
     # Row: Table with all sample data records
     with st.beta_expander("All Tweets Analyzed"):
-        st.table(
+        st.write(
             df[['created_at', 'user.screen_name', 'full_text', 'sentiment_text', 'sentiment_score']].rename(columns={
                 'created_at': 'Created',
                 'user.screen_name': 'User',

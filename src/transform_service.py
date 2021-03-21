@@ -27,7 +27,7 @@ class TransformService:
             dataframe['created_at'] = pd.to_datetime(dataframe['created_at'])
             return dataframe[cols_to_include]
 
-    # Remove whitespace between text, urls, mentions, expand contractions, remove punctuation, trailing whitespace
+    # Methods for cleaning text
     def _to_lowercase(self, s):
         return s.lower()
 

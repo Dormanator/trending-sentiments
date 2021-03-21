@@ -124,7 +124,7 @@ class TransformService:
         # Df with shape: Hashtag    Count
         #                avatar     54
         #                nfl        32
-        return df_hashtags.groupby(df_hashtags['Hashtag'].map(lambda s: s.lower()))\
+        return df_hashtags.groupby(df_hashtags['Hashtag'].map(lambda s: s.lower())) \
             .sum() \
             .sort_values(by=['Count'], ascending=False) \
             .reset_index()

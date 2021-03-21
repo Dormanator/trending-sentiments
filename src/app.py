@@ -1,4 +1,5 @@
 import os
+import datetime
 
 import streamlit as st
 import tweepy
@@ -14,18 +15,18 @@ except ImportError:
     import tensorflow as tf
     import tensorflow_text as text
 
-from dotenv import load_dotenv
+# Only use dotenv in dev
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    print("dotenv not found. Using sys env vars...")
+
 from transform_service import TransformService
 
 load_dotenv()
 
-def download_model():
-    # check for model dir
-    # if exists do nothing
-    # if not exists download zip and extract to ./bert_model
-    pass
 
-@st.cache()
+@st.cache(show_spinner=False)
 def load_model():
     model = tf.saved_model.load('./bert_model')
     return model
@@ -33,10 +34,10 @@ def load_model():
 
 def twitter_connect():
     auth = tweepy.AppAuthHandler(os.getenv('TWITTER_KEY'), os.getenv('TWITTER_SECRET_KEY'))
-    return tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+    return tweepy.API(auth)
 
 
-if __name__ == '__main__':
+def main():
     transform = TransformService()
 
     # Setup Page Title and Styles
@@ -55,43 +56,69 @@ if __name__ == '__main__':
 
     # Setup Page Header
     st.write("""
-    # 📈 Trending Sentiments
-    Discover trending sentiments on Twitter with a hashtag or keyword search.
-    """)
+      # 📈 Trending Sentiments
+      Discover trending sentiments on Twitter with a hashtag or keyword search.
+      """)
 
     # Setup Sidebar
     # Handle user input
-    userInput = st.sidebar.text_input('Search for a hashtag or keyword to begin', '#Avatar')
+    user_input = st.sidebar.text_input('Search for a hashtag or keyword to begin', '#Avatar')
     st.sidebar.write("""
-    Created by Ryan Dorman
-    """)
+      Created by [Ryan Dorman](https://github.com/dormanator)
+      """)
 
-    if not userInput:
-        st.warning('Please input a search value.')
+    # App description and info
+    with st.sidebar.beta_expander("About"):
+        st.write("""
+        **Trending Sentiments** is a data exploration application for analyzing hashtags and keywords in tweets. 
+        The application provides several descriptive statistics regarding hashtag/term interaction, top tweets, and user 
+        participation. It also provides predictive statistics regarding tweet sentiments. Testing indicates that 
+        Sentiment predictions have an accuracy of 81%.<br/><br/>
+        Sentiment predictions are done with a fine-tuned 
+        [BERT model](https://ai.googleblog.com/2018/11/open-sourcing-bert-state-of-art-pre.html?m=1) 
+        trained on a sample of 50,000 pre-label tweets obtained from 
+        [Kaggle](https://www.kaggle.com/kazanova/sentiment140). 
+        The base model used was a pre-trained small BERT uncased model obtained from [TensorFlow Hub]
+        (https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-512_A-8/1). <br/><br/>
+        _Note: This model does not take into account a tweet's emojis or embedded images. This can be a major 
+        shortcoming if a tweet's content is primarily based around such elements._
+        """, unsafe_allow_html=True)
+
+    # Check Twitter API rate limits
+    results = api.rate_limit_status()
+    rate_limit_info = results['resources']['search']['/search/tweets']
+
+    if not user_input:
+        st.warning('⛔ Please input a search value.')
+        st.stop()
+
+    if rate_limit_info['remaining'] == 0:
+        local_tz = datetime.datetime.utcnow().astimezone().tzinfo
+        reset_time = pd.to_datetime(rate_limit_info['reset'], unit='s') \
+            .tz_localize('utc') \
+            .tz_convert(local_tz) \
+            .strftime('%I:%M:%S %p')
+        st.warning('⏲ We have to wait before getting more data. '
+                   'Try again at {}.'.format(reset_time))
         st.stop()
 
     with st.spinner('🔎 Searching for tweets...'):
-        results = api.search(q=userInput, count=100, tweet_mode='extended', result_type='recent')
+        results = api.search(q=user_input, count=100, tweet_mode='extended', result_type='recent')
         json_data = [r._json for r in results]
         df = transform.convert_json_to_dataframe(json_data)
 
     # Predict tweet sentiments using Stanza CNN classifier
     with st.spinner('⏳ Analyzing sentiments. This may take a moment...'):
-        # df['sentiment_text'] = df['tweet'] \
-        #     .map(transform.clean_tweet) \
-        #     .map(predict_sentiment) \
-        #     .map(transform.map_sentiment_label)
         clean_tweets = df['tweet'].map(transform.clean_tweet).to_list()
         sentiment_scores = tf.sigmoid(sentiment_model(tf.constant(clean_tweets)))
         df['sentiment_score'] = np.array(sentiment_scores).flatten()
         df['sentiment_text'] = df['sentiment_score'].map(transform.map_sentiment_label)
         df['sentiment_text'].astype('category')
-        st.balloons()
 
     # Start of Page Body
     st.write("""
-    ## 100 Most Recent Tweets for: <u>{}</u>
-    """.format(userInput), unsafe_allow_html=True)
+      ## 100 Most Recent Tweets for: <u>{}</u>
+      """.format(user_input), unsafe_allow_html=True)
 
     # Row: Interaction descriptive stats
     col1, col2, col3 = st.beta_columns(3)
@@ -100,22 +127,22 @@ if __name__ == '__main__':
     time_range = df['created_at'].max() - df['created_at'].min()
     with col1:
         st.write("""
-            ### Occurred Over
-            """, str(time_range))
+              ### Occurred Over
+              """, str(time_range))
 
     # Col: Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (<2)
     interaction_description = transform.map_interaction_label(time_range)
     with col2:
         st.write("""
-            ### Interaction Level
-            """, interaction_description)
+              ### Interaction Level
+              """, interaction_description)
 
     # Col: Sentiment most seen across the sample
     most_common_sentiment = df['sentiment_text'].mode()[0]
     with col3:
         st.write("""
-            ### Overall Sentiment
-            """, most_common_sentiment)
+              ### Overall Sentiment
+              """, most_common_sentiment)
 
     # Row: Graph of predictive sentiment time series
     df_sentiment_by_time = transform.gen_sentiment_by_time_dataframe(df)
@@ -137,8 +164,8 @@ if __name__ == '__main__':
         tooltip=['Tweets', 'Created']
     )
     st.write("""
-    ### Sentiment Frequency Over Time
-    """)
+      ### Sentiment Frequency Over Time
+      """)
     st.altair_chart(chart_sentiment_by_time, use_container_width=True)
 
     # Row: Top Tweets descriptive stats row
@@ -148,13 +175,13 @@ if __name__ == '__main__':
     top_favorite = df.loc[df['favorite_count'] == df['favorite_count'].max()]
     with col1:
         st.write("""
-        ### Top Favorite Tweet   
-        """)
+          ### Top Favorite Tweet   
+          """)
         st.write("""
-        **Text:** {}  
-        **User:** {}  
-        **Sentiment:** {}    
-        """.format(
+          **Text:** {}  
+          **User:** {}  
+          **Sentiment:** {}    
+          """.format(
             top_favorite['full_text'].values[0],
             top_favorite['user.screen_name'].values[0],
             top_favorite['sentiment_text'].values[0]
@@ -164,13 +191,13 @@ if __name__ == '__main__':
     top_retweet = df.loc[df['retweet_count'] == df['retweet_count'].max()]
     with col2:
         st.write("""
-        ### Top Re-Tweet
-        """)
+          ### Top Re-Tweet
+          """)
         st.write("""
-        **Text:** {}  
-        **User:** {}  
-        **Sentiment:** {}    
-        """.format(
+          **Text:** {}  
+          **User:** {}  
+          **Sentiment:** {}    
+          """.format(
             top_retweet['full_text'].values[0],
             top_retweet['user.screen_name'].values[0],
             top_retweet['sentiment_text'].values[0]
@@ -183,8 +210,8 @@ if __name__ == '__main__':
         y=alt.Y('Hashtag', axis=alt.Axis(title=""), sort='-x')) \
         .configure_axis(labelFontSize=12)
     st.write("""
-    ### Top 5 Hashtags
-    """)
+      ### Top 5 Hashtags
+      """)
     st.altair_chart(chart_top_hashtags, use_container_width=True)
 
     # Row: User descriptive stats
@@ -195,8 +222,8 @@ if __name__ == '__main__':
     num_users = user_counts.size
     with col1:
         st.write("""
-        ### Unique Users
-        """, str(num_users))
+          ### Unique Users
+          """, str(num_users))
 
     # Col: User with most tweets
     user_max_tweets = user_counts.head(3).index.values
@@ -204,8 +231,8 @@ if __name__ == '__main__':
     df_top_tweets = pd.DataFrame({'User': user_max_tweets, 'Tweets': count_max_tweets})
     with col2:
         st.write("""
-        ### Users with Most Tweets
-        """)
+          ### Users with Most Tweets
+          """)
         st.table(df_top_tweets.assign(hack='').set_index('hack'))
 
     # Row: Table with all sample data records
@@ -218,3 +245,7 @@ if __name__ == '__main__':
                 'sentiment_text': 'Sentiment',
                 'sentiment_score': 'Sentiment Score'
             }))
+
+
+if __name__ == '__main__':
+    main()

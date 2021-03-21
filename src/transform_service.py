@@ -3,6 +3,7 @@ import string
 
 import pandas as pd
 import numpy as np
+import contractions
 
 
 class TransformService:
@@ -26,13 +27,41 @@ class TransformService:
             dataframe['created_at'] = pd.to_datetime(dataframe['created_at'])
             return dataframe[cols_to_include]
 
-    # Remove whitespace between text, urls, punctuation, trailing whitespace
+    # Remove whitespace between text, urls, mentions, expand contractions, remove punctuation, trailing whitespace
+    def _to_lowercase(self, s):
+        return s.lower()
+
+    def _remove_links(self, s):
+        return re.sub(r'https?://[A-Za-z0-9./]+', '', s)
+
+    def _expand_contractions(self, s):
+        expanded = []
+        for word in s.split():
+            expanded.append(contractions.fix(word))
+        return ' '.join(expanded)
+
+    def _remove_mentions(self, s):
+        return re.sub(r'(@[A-Za-z0-9_]+)', '', s)
+
+    def _remove_puncuation(self, s):
+        result = s.translate(str.maketrans(dict.fromkeys(string.punctuation)))
+        result = re.sub(r'[0-9]+', '', result)
+        return result
+
+    def _trim_spaces(self, s):
+        result = re.sub(r'\t', ' ', s)
+        result = re.sub(r'\s+', ' ', result)
+        result = re.sub(r' +', ' ', result)
+        return result.strip()
+
     def clean_tweet(self, tweet):
-        result = re.sub(r'\s+', ' ', tweet)
-        result = re.sub(r"https?://[A-Za-z0-9./]+", ' ', result)
-        return result \
-            .translate(str.maketrans('', '', string.punctuation)) \
-            .strip()
+        result = self._remove_links(tweet)
+        result = self._remove_mentions(result)
+        result = self._expand_contractions(result)
+        result = self._remove_puncuation(result)
+        result = self._to_lowercase(result)
+        result = self._trim_spaces(result)
+        return result
 
     # Map sentiment scores to text labels
     def map_sentiment_label(self, score):

@@ -4,6 +4,7 @@ streamlit~=0.78.0
 tweepy~=3.10.0
 altair~=4.1.0
 numpy~=1.19.2
+contractions~=0.0.48
 tensorflow~=2.4.1; sys_platform == "linux"
 tensorflow-text~=2.4.1; sys_platform == "linux"
 tf-nightly~=2.5.0; sys_platform == "Windows"

@@ -51,7 +51,6 @@ def main():
     with st.spinner('🔨 Getting everything ready...'):
         api = twitter_connect()
         sentiment_model = load_model()
-        # nlp = stanza.Pipeline(lang='en', processors='tokenize,sentiment')
 
     # Setup Page Header
     st.write("""
@@ -71,19 +70,17 @@ def main():
         st.write("""
         **Trending Sentiments** is a data exploration application for analyzing hashtags and keywords in tweets. 
         The application provides several descriptive statistics regarding hashtag/term interaction, top tweets, and user 
-        participation. It also provides predictive statistics regarding tweet sentiments. Testing indicates that 
-        Sentiment predictions have an accuracy of 81%.<br/><br/>
-        Sentiment predictions are done with a fine-tuned 
-        [BERT model](https://ai.googleblog.com/2018/11/open-sourcing-bert-state-of-art-pre.html?m=1) 
-        trained on a sample of 50,000 pre-label tweets obtained from 
-        [Kaggle](https://www.kaggle.com/kazanova/sentiment140). 
-        The base model used was a pre-trained small BERT uncased model obtained from [TensorFlow Hub]
-        (https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-512_A-8/1). <br/><br/>
-        _Note: This model does not take into account a tweet's emojis or embedded images. This can be a major 
-        shortcoming if a tweet's content is primarily based around such elements._
+        participation. It also provides predictive statistics regarding tweet sentiments. Testing indicates sentiment 
+        predictions have an accuracy of 81%.<br/><br/>Sentiment predictions are done with a fine-tuned 
+        [BERT model](https://ai.googleblog.com/2018/11/open-sourcing-bert-state-of-art-pre.html?m=1) trained on a sample 
+        of 50,000 pre-label tweets obtained from [Kaggle](https://www.kaggle.com/kazanova/sentiment140). The base model 
+        used was a pre-trained small BERT uncased model obtained from [TensorFlow Hub]
+        (https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-512_A-8/1).<br/><br/>_Note: This model does not 
+        take into account a tweet's emojis or embedded images. This can be a shortcoming if a tweet's content is 
+        primarily based around such elements._
         """, unsafe_allow_html=True)
 
-    # Check Twitter API rate limits
+    # Check Twitter API rate limits and handle search state
     results = api.rate_limit_status()
     rate_limit_info = results['resources']['search']['/search/tweets']
 

@@ -3,7 +3,7 @@ import zipfile
 
 from urllib.request import urlopen, Request
 
-FILE_URL = 'https://storage.googleapis.com/trending-sentiments/bert_model.zip'
+FILE_URL = 'https://storage.googleapis.com/trending-sentiments-data/bert_model.zip'
 MODEL_PATH = './bert_model'
 DOWNLOAD_PATH = './bert_model.zip'
 

@@ -102,10 +102,11 @@ class TransformService:
         #                2000-01-01 12:34:00  1         Negative
         time_and_sentiment = np.empty(shape=[0, 3])
         for sentiment in ['Negative', 'Neutral', 'Positive']:
-            temp_df = tweets_by_sentiment[['created_at', sentiment]].copy()
-            temp_df['Sentiment'] = sentiment
-            temp_df['Sentiment'] = temp_df['Sentiment'].astype('category')
-            time_and_sentiment = np.vstack((time_and_sentiment, temp_df.to_numpy()))
+            if sentiment in tweets_by_sentiment:
+                temp_df = tweets_by_sentiment[['created_at', sentiment]].copy()
+                temp_df['Sentiment'] = sentiment
+                temp_df['Sentiment'] = temp_df['Sentiment'].astype('category')
+                time_and_sentiment = np.vstack((time_and_sentiment, temp_df.to_numpy()))
         return pd.DataFrame(time_and_sentiment, columns=['Created', 'Tweets', 'Sentiment'])
 
     def _flatten_hashtag_arr(self, arr):

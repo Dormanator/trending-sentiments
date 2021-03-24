@@ -140,6 +140,9 @@ def main():
               ### Overall Sentiment
               """, most_common_sentiment)
 
+    # Todo: Row with sentiment score distribution, https://altair-viz.github.io/gallery/histogram_with_a_global_mean_overlay.html
+    # https://altair-viz.github.io/gallery/scatter_with_histogram.html
+
     # Row: Graph of predictive sentiment time series
     df_sentiment_by_time = transform.gen_sentiment_text_by_time_dataframe(df)
     # Create stacked bar chart
@@ -164,7 +167,8 @@ def main():
       """)
     st.altair_chart(chart_sentiment_by_time, use_container_width=True)
 
-    # Row: Future Sentiment Prediction
+    # Todo: Row: Future Sentiment Prediction
+    # https://towardsdatascience.com/an-end-to-end-project-on-time-series-analysis-and-forecasting-with-python-4835e6bf050b
     st.write("""
       ### Sentiment Score Over Time
       """)

@@ -86,8 +86,8 @@ class TransformService:
         return interaction_level
 
     # Generate a dataframe with sentiment time series formatted for use in a altair chart
-    def gen_sentiment_by_time_dataframe(self, dataframe):
-        dataframe = dataframe.copy()
+    def gen_sentiment_text_by_time_dataframe(self, dataframe):
+        dataframe = dataframe[['created_at', 'sentiment_text']].copy()
         # Get counts per sentiment level for every timestamp to the minute
         # Df with shape: created_at           Negative  Neutral   Positive
         #                2000-01-01 12:34:00  1         0         2
@@ -108,6 +108,19 @@ class TransformService:
                 temp_df['Sentiment'] = temp_df['Sentiment'].astype('category')
                 time_and_sentiment = np.vstack((time_and_sentiment, temp_df.to_numpy()))
         return pd.DataFrame(time_and_sentiment, columns=['Created', 'Tweets', 'Sentiment'])
+
+    # Generate a dataframe with sentiment score time series data
+    def gen_sentiment_score_by_time_dataframe(self, dataframe):
+        dataframe = dataframe[['created_at', 'sentiment_score', 'sentiment_text']].copy()
+        # Get every timestamp to the minute and associated sentiment scores
+        # Df with shape: created_at           Score
+        #                2000-01-01 12:34:00  0.23423
+        dataframe['created_at'] = dataframe['created_at']
+        return dataframe.rename(columns={
+            "created_at": "Created",
+            "sentiment_score": "Sentiment Score",
+            "sentiment_text": "Sentiment"
+        })
 
     def _flatten_hashtag_arr(self, arr):
         flat_entities = []

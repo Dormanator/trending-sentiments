@@ -103,7 +103,7 @@ def main():
         json_data = [r._json for r in results]
         df = transform.convert_json_to_dataframe(json_data)
 
-    # Predict tweet sentiments using Stanza CNN classifier
+    # Predict tweet sentiments using trained BERT model
     with st.spinner('⏳ Analyzing sentiments. This may take a moment...'):
         clean_tweets = df['tweet'].map(transform.clean_tweet).to_list()
         sentiment_scores = tf.sigmoid(sentiment_model(tf.constant(clean_tweets)))
@@ -141,11 +141,11 @@ def main():
               """, most_common_sentiment)
 
     # Row: Graph of predictive sentiment time series
-    df_sentiment_by_time = transform.gen_sentiment_by_time_dataframe(df)
+    df_sentiment_by_time = transform.gen_sentiment_text_by_time_dataframe(df)
     # Create stacked bar chart
     chart_sentiment_by_time = alt.Chart(df_sentiment_by_time).mark_bar().encode(
         x='Created',
-        y=alt.Y('sum(Tweets)', axis=alt.Axis(title="Count")),
+        y=alt.Y('sum(Tweets)', axis=alt.Axis(title="Count", tickMinStep=1)),
         color=alt.Color('Sentiment',
                         # Setup color by sentiment category
                         sort=alt.EncodingSortField('Sentiment', order='ascending'),
@@ -163,6 +163,24 @@ def main():
       ### Sentiment Frequency Over Time
       """)
     st.altair_chart(chart_sentiment_by_time, use_container_width=True)
+
+    # Row: Future Sentiment Prediction
+    st.write("""
+      ### Sentiment Score Over Time
+      """)
+    df_sentiment_score_by_time = transform.gen_sentiment_score_by_time_dataframe(df)
+    chart_sentiment_score_by_time = alt.Chart(df_sentiment_score_by_time).mark_circle(size=60).encode(
+        x='Created',
+        y='Sentiment Score',
+        color=alt.Color('Sentiment',
+                        # Setup color by sentiment category
+                        sort=alt.EncodingSortField('Sentiment', order='ascending'),
+                        scale=alt.Scale(domain=['Positive', 'Neutral', 'Negative']),
+                        legend=alt.Legend(title='Sentiments')
+                        ),
+        tooltip=['Sentiment Score', 'Created']
+    )
+    st.altair_chart(chart_sentiment_score_by_time, use_container_width=True)
 
     # Row: Top Tweets descriptive stats row
     col1, col2 = st.beta_columns(2)

@@ -56,12 +56,9 @@ def main():
     with st.sidebar.beta_expander("About"):
         st.write("""
         **Trending Sentiments** is a data exploration application for analyzing hashtags and keywords in tweets. 
-        The application provides several descriptive statistics regarding hashtag/term interaction, top tweets, and user 
-        participation. It also provides predictive statistics regarding tweet sentiments. Sentiment prediction is made 
-        using [VADER (Valence Aware Dictionary and sEntiment Reasoner)](https://github.com/cjhutto/vaderSentiment) an 
-        open source NLP model developer by C.J. Hutto and Eric Gilbert. Testing indicates sentiment predictions with
-        Vader are accurate 96% of the time.<br/><br/>_Note: This model does not take into account a tweet's embedded 
-        images. This can be a shortcoming if a tweet's content is primarily based around such elements._
+        The application provides descriptive statistics on hashtag/term interaction, top tweets, and user 
+        participation. It provides predictive statistics on tweets' sentiments. Sentiment prediction is made 
+        using [VADER (Valence Aware Dictionary and sEntiment Reasoner)](https://github.com/cjhutto/vaderSentiment).
         """, unsafe_allow_html=True)
 
     # Check Twitter API rate limits and handle search state
@@ -87,7 +84,7 @@ def main():
         json_data = [r._json for r in results]
         df = transformer.convert_json_to_dataframe(json_data)
 
-    # Predict tweet sentiments using trained BERT model
+    # Predict tweet sentiments using VADER
     with st.spinner('⏳ Analyzing sentiments. This may take a moment...'):
         df['sentiment_score'] = df['tweet'] \
             .apply(transformer.clean_tweet) \

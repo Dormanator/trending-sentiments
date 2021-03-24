@@ -84,6 +84,10 @@ def main():
         json_data = [r._json for r in results]
         df = transformer.convert_json_to_dataframe(json_data)
 
+    if df is None:
+        st.warning('⛔ No tweets found. Try another term.')
+        st.stop()
+
     # Predict tweet sentiments using VADER
     with st.spinner('⏳ Analyzing sentiments. This may take a moment...'):
         df['sentiment_score'] = df['tweet'] \

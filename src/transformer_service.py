@@ -32,6 +32,9 @@ class TransformerService:
     def _remove_mentions(self, s):
         return re.sub(r'(@[A-Za-z0-9_]+)', '', s)
 
+    def _remove_hashtags(self, s):
+        return re.sub(r'(#[A-Za-z0-9_]+)', '', s)
+
     def _trim_spaces(self, s):
         result = re.sub(r'\t', ' ', s)
         result = re.sub(r'\s+', ' ', result)
@@ -40,6 +43,7 @@ class TransformerService:
 
     def clean_tweet(self, tweet):
         result = self._remove_links(tweet)
+        result = self._remove_hashtags(result)
         result = self._remove_mentions(result)
         result = self._trim_spaces(result)
         return result

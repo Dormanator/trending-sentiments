@@ -5,30 +5,17 @@ import streamlit as st
 import tweepy
 import altair as alt
 import pandas as pd
-import numpy as np
 
-# Import correct TF on Win & Linux
-try:
-    import tf_nightly as tf
-    import tensorflow_text_nightly as text
-except ImportError:
-    import tensorflow as tf
-    import tensorflow_text as text
-
-from transform_service import TransformService
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from transformer_service import TransformerService
 
 # Only use dotenv in dev
 try:
     from dotenv import load_dotenv
+
     load_dotenv()
 except ImportError:
     print("dotenv not found. Using sys env vars...")
-
-
-@st.cache(show_spinner=False)
-def load_model():
-    model = tf.saved_model.load('./bert_model')
-    return model
 
 
 def twitter_connect():
@@ -37,7 +24,8 @@ def twitter_connect():
 
 
 def main():
-    transform = TransformService()
+    transformer = TransformerService()
+    analyzer = SentimentIntensityAnalyzer()
 
     # Setup Page Title and Styles
     st.set_page_config(page_title='Trending Sentiments', page_icon='📈', initial_sidebar_state='expanded', )
@@ -50,7 +38,6 @@ def main():
     # Setup Sentiment Prediction Model & Twitter API
     with st.spinner('🔨 Getting everything ready...'):
         api = twitter_connect()
-        sentiment_model = load_model()
 
     # Setup Page Header
     st.write("""
@@ -70,14 +57,11 @@ def main():
         st.write("""
         **Trending Sentiments** is a data exploration application for analyzing hashtags and keywords in tweets. 
         The application provides several descriptive statistics regarding hashtag/term interaction, top tweets, and user 
-        participation. It also provides predictive statistics regarding tweet sentiments. Testing indicates sentiment 
-        predictions have an accuracy of 81%.<br/><br/>Sentiment predictions are done with a fine-tuned 
-        [BERT model](https://ai.googleblog.com/2018/11/open-sourcing-bert-state-of-art-pre.html?m=1) trained on a sample 
-        of 50,000 pre-label tweets obtained from [Kaggle](https://www.kaggle.com/kazanova/sentiment140). The base model 
-        used was a pre-trained small BERT uncased model obtained from [TensorFlow Hub]
-        (https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-512_A-8/1).<br/><br/>_Note: This model does not 
-        take into account a tweet's emojis or embedded images. This can be a shortcoming if a tweet's content is 
-        primarily based around such elements._
+        participation. It also provides predictive statistics regarding tweet sentiments. Sentiment prediction is made 
+        using [VADER (Valence Aware Dictionary and sEntiment Reasoner)](https://github.com/cjhutto/vaderSentiment) an 
+        open source NLP model developer by C.J. Hutto and Eric Gilbert. Testing indicates sentiment predictions with
+        Vader are accurate 96% of the time.<br/><br/>_Note: This model does not take into account a tweet's embedded 
+        images. This can be a shortcoming if a tweet's content is primarily based around such elements._
         """, unsafe_allow_html=True)
 
     # Check Twitter API rate limits and handle search state
@@ -101,14 +85,15 @@ def main():
     with st.spinner('🔎 Searching for tweets...'):
         results = api.search(q=user_input, count=100, tweet_mode='extended', result_type='recent')
         json_data = [r._json for r in results]
-        df = transform.convert_json_to_dataframe(json_data)
+        df = transformer.convert_json_to_dataframe(json_data)
 
     # Predict tweet sentiments using trained BERT model
     with st.spinner('⏳ Analyzing sentiments. This may take a moment...'):
-        clean_tweets = df['tweet'].map(transform.clean_tweet).to_list()
-        sentiment_scores = tf.sigmoid(sentiment_model(tf.constant(clean_tweets)))
-        df['sentiment_score'] = np.array(sentiment_scores).flatten()
-        df['sentiment_text'] = df['sentiment_score'].map(transform.map_sentiment_label)
+        df['sentiment_score'] = df['tweet'] \
+            .apply(transformer.clean_tweet) \
+            .apply(analyzer.polarity_scores) \
+            .apply(lambda d: d.get('compound'))
+        df['sentiment_text'] = df['sentiment_score'].map(transformer.map_sentiment_label)
         df['sentiment_text'].astype('category')
 
     # Start of Page Body
@@ -127,7 +112,7 @@ def main():
               """, str(time_range))
 
     # Col: Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (<2)
-    interaction_description = transform.map_interaction_label(time_range)
+    interaction_description = transformer.map_interaction_label(time_range)
     with col2:
         st.write("""
               ### Interaction Level
@@ -140,11 +125,8 @@ def main():
               ### Overall Sentiment
               """, most_common_sentiment)
 
-    # Todo: Row with sentiment score distribution, https://altair-viz.github.io/gallery/histogram_with_a_global_mean_overlay.html
-    # https://altair-viz.github.io/gallery/scatter_with_histogram.html
-
     # Row: Graph of predictive sentiment time series
-    df_sentiment_by_time = transform.gen_sentiment_text_by_time_dataframe(df)
+    df_sentiment_by_time = transformer.gen_sentiment_text_by_time_dataframe(df)
     # Create stacked bar chart
     chart_sentiment_by_time = alt.Chart(df_sentiment_by_time).mark_bar().encode(
         x='Created',
@@ -167,12 +149,17 @@ def main():
       """)
     st.altair_chart(chart_sentiment_by_time, use_container_width=True)
 
-    # Todo: Row: Future Sentiment Prediction
+    # Todo: Row with sentiment analysis
+
+    # Todo: Sentiment score distribution, https://altair-viz.github.io/gallery/histogram_with_a_global_mean_overlay.html
+    # https://altair-viz.github.io/gallery/scatter_with_histogram.html
+
+    # Todo: Future Sentiment Prediction
     # https://towardsdatascience.com/an-end-to-end-project-on-time-series-analysis-and-forecasting-with-python-4835e6bf050b
     st.write("""
       ### Sentiment Score Over Time
       """)
-    df_sentiment_score_by_time = transform.gen_sentiment_score_by_time_dataframe(df)
+    df_sentiment_score_by_time = transformer.gen_sentiment_score_by_time_dataframe(df)
     chart_sentiment_score_by_time = alt.Chart(df_sentiment_score_by_time).mark_circle(size=60).encode(
         x='Created',
         y='Sentiment Score',
@@ -222,7 +209,7 @@ def main():
         ))
 
     # Row: Top hashtags bar chart
-    df_top_hashtags = transform.gen_hashtag_counts_dataframe(df)
+    df_top_hashtags = transformer.gen_hashtag_counts_dataframe(df)
     chart_top_hashtags = alt.Chart(df_top_hashtags.head(5)).mark_bar().encode(
         x=alt.X('Count', axis=alt.Axis(tickMinStep=1)),
         y=alt.Y('Hashtag', axis=alt.Axis(title=""), sort='-x')) \

@@ -1,3 +1,4 @@
 /bert_model
 .ipynb_*
 .env
+.idea

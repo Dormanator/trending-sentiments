@@ -1,1 +1,0 @@
-https://storage.googleapis.com/trending-sentiments-data/bert_model.zip

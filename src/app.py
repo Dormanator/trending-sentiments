@@ -99,68 +99,69 @@ def main():
 
     # Start of Page Body
     st.write("""
-      ## 100 Most Recent Tweets for: <u>{}</u>
+      ## 100 Most Recent Tweets for: <u>{}</u> 
       """.format(user_input), unsafe_allow_html=True)
 
     # Row: Interaction descriptive stats
-    col1, col2, col3 = st.beta_columns(3)
+    st.write("""
+    <hr/>  
+    
+    ## Interactions
+    """, unsafe_allow_html=True)
+    col1, col2 = st.beta_columns([8, 4])
 
-    # Col: length of time period 100 most recent occurred
-    time_range = df['created_at'].max() - df['created_at'].min()
+    # Col: Graph of tweet interaction over time
     with col1:
         st.write("""
-              ### Occurred Over
-              """, str(time_range))
+          ### Over Time
+          """)
+        df_tweets_by_time = transformer.gen_tweets_by_time_dataframe(df)
+        chart_tweets_by_time = alt.Chart(df_tweets_by_time).mark_line().encode(x='Created', y='Tweets')
+        st.altair_chart(chart_tweets_by_time, use_container_width=True)
 
-    # Col: Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (<2)
+    # Col: length of time period 100 most recent occurred
+    # Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (<2)
+    time_range = df['created_at'].max() - df['created_at'].min()
     interaction_description = transformer.map_interaction_label(time_range)
     with col2:
         st.write("""
-              ### Interaction Level
+              ### Period
+              """, str(time_range))
+        st.write("""
+              ### Level
               """, interaction_description)
 
-    # Col: Sentiment most seen across the sample
-    most_common_sentiment = df['sentiment_text'].mode()[0]
-    with col3:
-        st.write("""
-              ### Overall Sentiment
-              """, most_common_sentiment)
+    # Row: Sentiment descriptive stats
+    st.write("""
+    <hr/>  
+    
+    ## Sentiments
+    """, unsafe_allow_html=True)
+    col1, col2 = st.beta_columns([4, 8])
 
-    # Row: Graph of predictive sentiment time series
-    df_sentiment_by_time = transformer.gen_sentiment_text_by_time_dataframe(df)
-    # Create stacked bar chart
-    chart_sentiment_by_time = alt.Chart(df_sentiment_by_time).mark_bar().encode(
-        x='Created',
-        y=alt.Y('sum(Tweets)', axis=alt.Axis(title="Count", tickMinStep=1)),
+    # Col: Sentiments most seen across the sample
+    avg_sentiment_score = df['sentiment_score'].mean()
+    df_sentiment_score_by_time = transformer.gen_sentiment_score_by_time_dataframe(df)
+    sentiment_distribution = alt.Chart(df_sentiment_score_by_time).mark_bar().encode(
+        x=alt.X('count(Sentiment)', axis=alt.Axis(tickMinStep=1, title='Tweets')),
+        y=alt.Y('Sentiment', axis=alt.Axis(title=None), sort='-x'),
         color=alt.Color('Sentiment',
                         # Setup color by sentiment category
                         sort=alt.EncodingSortField('Sentiment', order='ascending'),
                         scale=alt.Scale(domain=['Positive', 'Neutral', 'Negative']),
-                        legend=alt.Legend(title="Sentiments")
+                        legend=None
                         ),
-        order=alt.Order(
-            # Sort the segments of the bars by this field
-            'Sentiment',
-            sort='ascending'
-        ),
-        tooltip=['Tweets', 'Created']
     )
-    st.write("""
-      ### Sentiment Frequency Over Time
-      """)
-    st.altair_chart(chart_sentiment_by_time, use_container_width=True)
+    with col1:
+        st.write("""
+              ### Average
+              """, transformer.map_sentiment_label(avg_sentiment_score))
+        st.write("""
+                ### Most Common
+                """)
+        st.altair_chart(sentiment_distribution, use_container_width=True)
 
-    # Todo: Row with sentiment analysis
-
-    # Todo: Sentiment score distribution, https://altair-viz.github.io/gallery/histogram_with_a_global_mean_overlay.html
-    # https://altair-viz.github.io/gallery/scatter_with_histogram.html
-
-    # Todo: Future Sentiment Prediction
-    # https://towardsdatascience.com/an-end-to-end-project-on-time-series-analysis-and-forecasting-with-python-4835e6bf050b
-    st.write("""
-      ### Sentiment Score Over Time
-      """)
-    df_sentiment_score_by_time = transformer.gen_sentiment_score_by_time_dataframe(df)
+    # Col: Graph of predictive sentiment time series
     chart_sentiment_score_by_time = alt.Chart(df_sentiment_score_by_time).mark_circle(size=60).encode(
         x='Created',
         y='Sentiment Score',
@@ -170,11 +171,20 @@ def main():
                         scale=alt.Scale(domain=['Positive', 'Neutral', 'Negative']),
                         legend=alt.Legend(title='Sentiments')
                         ),
-        tooltip=['Sentiment Score', 'Created']
     )
-    st.altair_chart(chart_sentiment_score_by_time, use_container_width=True)
+
+    with col2:
+        st.write("""
+            ### Over Time
+            """)
+        st.altair_chart(chart_sentiment_score_by_time, use_container_width=True)
 
     # Row: Top Tweets descriptive stats row
+    st.write("""
+    <hr/>  
+    
+    ## Features
+    """, unsafe_allow_html=True)
     col1, col2 = st.beta_columns(2)
 
     # Top favorite & sentiment
@@ -221,6 +231,11 @@ def main():
     st.altair_chart(chart_top_hashtags, use_container_width=True)
 
     # Row: User descriptive stats
+    st.write("""
+    <hr/>  
+    
+    ## Users
+    """, unsafe_allow_html=True)
     col1, col2 = st.beta_columns(2)
 
     # Col: Number of unique users
@@ -242,6 +257,11 @@ def main():
         st.table(df_top_tweets.assign(hack='').set_index('hack'))
 
     # Row: Table with all sample data records
+    st.write("""
+    <hr/>  
+
+    ## Data
+    """, unsafe_allow_html=True)
     with st.beta_expander("All Tweets Analyzed"):
         st.write(
             df[['created_at', 'user.screen_name', 'full_text', 'sentiment_text', 'sentiment_score']].rename(columns={

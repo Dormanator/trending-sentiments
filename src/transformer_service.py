@@ -70,29 +70,17 @@ class TransformerService:
             interaction_level = 'Very High'
         return interaction_level
 
-    # Generate a dataframe with sentiment time series formatted for use in a altair chart
-    def gen_sentiment_text_by_time_dataframe(self, dataframe):
-        dataframe = dataframe[['created_at', 'sentiment_text']].copy()
+    # Generate a dataframe with tweet frequency time series formatted for use in a altair chart
+    def gen_tweets_by_time_dataframe(self, dataframe):
+        dataframe = dataframe[['created_at']].copy()
         # Get counts per sentiment level for every timestamp to the minute
         # Df with shape: created_at           Negative  Neutral   Positive
         #                2000-01-01 12:34:00  1         0         2
-        tweets_by_sentiment = dataframe.groupby(dataframe['created_at'].map(lambda x: x.replace(second=0)))[
-            'sentiment_text'] \
-            .value_counts() \
-            .unstack(fill_value=0) \
-            .reset_index()
-        # Build tweet frequency by sentiment time series dataframe
-        # Df with shape: Created              Tweets    Sentiment
-        #                2000-01-01 12:34:00  2         Positive
-        #                2000-01-01 12:34:00  1         Negative
-        time_and_sentiment = np.empty(shape=[0, 3])
-        for sentiment in ['Negative', 'Neutral', 'Positive']:
-            if sentiment in tweets_by_sentiment:
-                temp_df = tweets_by_sentiment[['created_at', sentiment]].copy()
-                temp_df['Sentiment'] = sentiment
-                temp_df['Sentiment'] = temp_df['Sentiment'].astype('category')
-                time_and_sentiment = np.vstack((time_and_sentiment, temp_df.to_numpy()))
-        return pd.DataFrame(time_and_sentiment, columns=['Created', 'Tweets', 'Sentiment'])
+        tweets_by_sentiment = dataframe.groupby(dataframe['created_at'].map(lambda x: x.replace(second=0))).count()
+        return tweets_by_sentiment\
+            .rename(columns={"created_at": "Tweets"})\
+            .reset_index()\
+            .rename(columns={"created_at": "Created"})
 
     # Generate a dataframe with sentiment score time series data
     def gen_sentiment_score_by_time_dataframe(self, dataframe):

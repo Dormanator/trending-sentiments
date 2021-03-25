@@ -139,8 +139,39 @@ def main():
     """, unsafe_allow_html=True)
     col1, col2 = st.beta_columns([4, 8])
 
-    # Col: Sentiments most seen across the sample
+    # Col: Avg sentiments across the sample
     avg_sentiment_score = df['sentiment_score'].mean()
+    with col1:
+        st.write("""
+              ### Average
+              """, transformer.map_sentiment_label(avg_sentiment_score))
+
+    # Col: Graph of predictive sentiment time series
+    df_sentiment_score_by_time = transformer.gen_sentiment_score_by_time_dataframe(df)
+    chart_sentiment_score_by_time = alt.Chart(df_sentiment_score_by_time).mark_circle(size=60).encode(
+        x='Created',
+        y='Sentiment Score',
+        color=alt.Color('Sentiment',
+                        # Setup color by sentiment category
+                        sort=alt.EncodingSortField('Sentiment', order='ascending'),
+                        scale=alt.Scale(domain=['Positive', 'Neutral', 'Negative']),
+                        ),
+    )
+    with col2:
+        st.write("""
+            ### Over Time
+            """)
+        st.altair_chart(chart_sentiment_score_by_time, use_container_width=True)
+
+    col1, col2 = st.beta_columns([4, 8])
+    # Col: Sentiments most seen across the sample
+    most_common_sentiment = df['sentiment_text'].mode()[0]
+    with col1:
+        st.write("""
+                ### Most Common
+                """, most_common_sentiment)
+
+    # Col: Graph of predictive sentiment time series
     df_sentiment_score_by_time = transformer.gen_sentiment_score_by_time_dataframe(df)
     sentiment_distribution = alt.Chart(df_sentiment_score_by_time).mark_bar().encode(
         x=alt.X('count(Sentiment)', axis=alt.Axis(tickMinStep=1, title='Tweets')),
@@ -149,35 +180,13 @@ def main():
                         # Setup color by sentiment category
                         sort=alt.EncodingSortField('Sentiment', order='ascending'),
                         scale=alt.Scale(domain=['Positive', 'Neutral', 'Negative']),
-                        legend=None
                         ),
     )
-    with col1:
-        st.write("""
-              ### Average
-              """, transformer.map_sentiment_label(avg_sentiment_score))
-        st.write("""
-                ### Most Common
-                """)
-        st.altair_chart(sentiment_distribution, use_container_width=True)
-
-    # Col: Graph of predictive sentiment time series
-    chart_sentiment_score_by_time = alt.Chart(df_sentiment_score_by_time).mark_circle(size=60).encode(
-        x='Created',
-        y='Sentiment Score',
-        color=alt.Color('Sentiment',
-                        # Setup color by sentiment category
-                        sort=alt.EncodingSortField('Sentiment', order='ascending'),
-                        scale=alt.Scale(domain=['Positive', 'Neutral', 'Negative']),
-                        legend=alt.Legend(title='Sentiments')
-                        ),
-    )
-
     with col2:
         st.write("""
-            ### Over Time
+            ### Frequency
             """)
-        st.altair_chart(chart_sentiment_score_by_time, use_container_width=True)
+        st.altair_chart(sentiment_distribution, use_container_width=True)
 
     # Row: Top Tweets descriptive stats row
     st.write("""

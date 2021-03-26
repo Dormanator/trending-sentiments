@@ -1,2 +1,6 @@
+.git
+.gitignore
 .env
 .idea
+kubernetes
+test

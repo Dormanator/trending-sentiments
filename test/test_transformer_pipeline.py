@@ -22,14 +22,17 @@ class TestTransformerPipeline(unittest.TestCase):
                            'entities.hashtags', 'user.id', 'user.screen_name']
         self._load_test_json()
 
-        df = self.transformer.convert_json_to_dataframe(self.test_json)
+        self.test_df = self.transformer.convert_json_to_dataframe(self.test_json)
 
         # Test shape
-        self.assertEqual(expected_rows, len(df))
+        self.assertEqual(expected_rows, len(self.test_df))
         for col in expected_cols:
-            self.assertTrue(col in df)
+            self.assertTrue(col in self.test_df)
 
     def test_clean_tweet(self):
+        pass
+
+    def test_predict_sentiment(self):
         pass
 
     def test_map_sentiment_label(self):

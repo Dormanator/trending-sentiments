@@ -7,7 +7,7 @@ import altair as alt
 import pandas as pd
 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-from transformer_pipeline import TransformerService
+from transformer_pipeline import TransformerPipeline
 
 # Only use dotenv in dev
 try:
@@ -24,7 +24,7 @@ def twitter_connect():
 
 
 def main():
-    transformer = TransformerService()
+    transformer = TransformerPipeline()
     analyzer = SentimentIntensityAnalyzer()
 
     # Setup Page Title and Styles

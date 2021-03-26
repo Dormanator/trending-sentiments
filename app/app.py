@@ -7,7 +7,7 @@ import altair as alt
 import pandas as pd
 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-from transformer_service import TransformerService
+from transformer_pipeline import TransformerService
 
 # Only use dotenv in dev
 try:

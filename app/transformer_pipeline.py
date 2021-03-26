@@ -74,8 +74,9 @@ class TransformerService:
     def gen_tweets_by_time_dataframe(self, dataframe):
         dataframe = dataframe[['created_at']].copy()
         # Get counts per sentiment level for every timestamp to the minute
-        # Df with shape: created_at           Negative  Neutral   Positive
-        #                2000-01-01 12:34:00  1         0         2
+        # Df with shape: Created                Tweets
+        #                2000-01-01 12:34:00    2
+        #                2000-01-01 12:35:00    3
         tweets_by_sentiment = dataframe.groupby(dataframe['created_at'].map(lambda x: x.replace(second=0))).count()
         return tweets_by_sentiment\
             .rename(columns={"created_at": "Tweets"})\
@@ -86,8 +87,8 @@ class TransformerService:
     def gen_sentiment_score_by_time_dataframe(self, dataframe):
         dataframe = dataframe[['created_at', 'sentiment_score', 'sentiment_text']].copy()
         # Get every timestamp to the minute and associated sentiment scores
-        # Df with shape: created_at           Score
-        #                2000-01-01 12:34:00  0.23423
+        # Df with shape: Created              Score         Sentiment
+        #                2000-01-01 12:34:00  0.23423       Positive
         dataframe['created_at'] = dataframe['created_at']
         return dataframe.rename(columns={
             "created_at": "Created",

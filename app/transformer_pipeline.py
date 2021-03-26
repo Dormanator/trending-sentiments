@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 
-class TransformerService:
+class TransformerPipeline:
     """Handles the transformation of data to formats expected by app"""
 
     # Convert Twitter JSON response to dataframe with proper columns and types

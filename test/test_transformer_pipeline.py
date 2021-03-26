@@ -1,6 +1,6 @@
 import unittest
 
-from app.transformer_pipeline import TransformerService
+from app.transformer_pipeline import TransformerPipeline
 
 
 class TestTransformerPipeline(unittest.TestCase):

@@ -12,7 +12,6 @@ from transformer_pipeline import TransformerPipeline
 # Only use dotenv in dev
 try:
     from dotenv import load_dotenv
-
     load_dotenv()
 except ImportError:
     print("dotenv not found. Using sys env vars...")

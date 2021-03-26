@@ -1,4 +1,5 @@
 import unittest
+import json
 
 from app.transformer_pipeline import TransformerPipeline
 
@@ -6,19 +7,33 @@ from app.transformer_pipeline import TransformerPipeline
 class TestTransformerPipeline(unittest.TestCase):
     """Tests the transformation of data to formats expected by app"""
 
+    transformer = TransformerPipeline()
+    test_json = None
+    test_df = None
+
+    def _load_test_json(self):
+        with open('./test/resources/test_twitter_response.json', encoding='utf-8') as json_file:
+            json_data = json.load(json_file)
+            self.test_json = json_data['_json']
+
     def test_convert_json_to_dataframe(self):
-        self.assertEqual('foo'.upper(), 'FOO')
+        expected_rows = 10
+        expected_cols = ['id', 'created_at', 'full_text', 'tweet', 'retweet_count', 'favorite_count',
+                           'entities.hashtags', 'user.id', 'user.screen_name']
+        self._load_test_json()
+
+        df = self.transformer.convert_json_to_dataframe(self.test_json)
+
+        # Test shape
+        self.assertEqual(expected_rows, len(df))
+        for col in expected_cols:
+            self.assertTrue(col in df)
 
     def test_clean_tweet(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
+        pass
 
     def test_map_sentiment_label(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
+        pass
 
     def test_map_interaction_label(self):
         pass

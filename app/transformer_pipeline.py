@@ -36,9 +36,7 @@ class TransformerPipeline:
         return re.sub(r'(#[A-Za-z0-9_]+)', '', s)
 
     def _trim_spaces(self, s):
-        result = re.sub(r'\t', ' ', s)
-        result = re.sub(r'\s+', ' ', result)
-        result = re.sub(r' +', ' ', result)
+        result = re.sub(r'\s+', ' ', s)
         return result.strip()
 
     def clean_tweet(self, tweet):

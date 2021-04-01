@@ -1,10 +1,11 @@
-import os
 import datetime
+import logging
+import os
 
-import streamlit as st
-import tweepy
 import altair as alt
 import pandas as pd
+import streamlit as st
+import tweepy
 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from transformer_pipeline import TransformerPipeline
@@ -14,7 +15,7 @@ try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
-    print("dotenv not found. Using sys env vars...")
+    logging.info("dotenv not found. Using sys env vars...")
 
 
 def twitter_connect():
@@ -79,6 +80,7 @@ def main():
         st.stop()
 
     with st.spinner('🔎 Searching for tweets...'):
+        logging.info('Analyzing Tweets for: {}'.format(user_input))
         results = api.search(q=user_input, count=100, tweet_mode='extended', result_type='recent')
         json_data = [r._json for r in results]
         df = transformer.convert_json_to_dataframe(json_data)

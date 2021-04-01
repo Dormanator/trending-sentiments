@@ -1,7 +1,7 @@
 import re
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 
 class TransformerPipeline:
@@ -76,9 +76,9 @@ class TransformerPipeline:
         #                2000-01-01 12:34:00    2
         #                2000-01-01 12:35:00    3
         tweets_by_sentiment = dataframe.groupby(dataframe['created_at'].map(lambda x: x.replace(second=0))).count()
-        return tweets_by_sentiment\
-            .rename(columns={"created_at": "Tweets"})\
-            .reset_index()\
+        return tweets_by_sentiment \
+            .rename(columns={"created_at": "Tweets"}) \
+            .reset_index() \
             .rename(columns={"created_at": "Created"})
 
     # Generate a dataframe with sentiment score time series data

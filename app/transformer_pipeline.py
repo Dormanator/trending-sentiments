@@ -56,15 +56,18 @@ class TransformerPipeline:
         return category
 
     # Map time period sample took place over to interaction labels
-    def map_interaction_label(self, time_delta):
+    def map_interaction_label(self, time_delta, sample_size):
+        # Consider time it takes for each 100 tweets to occur
+        normalized_size = sample_size / 100
+        normalized_delta = time_delta / normalized_size;
         interaction_level = 'Very Low'
-        if pd.Timedelta("12 hours") <= time_delta < pd.Timedelta("1 days"):
+        if pd.Timedelta("12 hours") <= normalized_delta < pd.Timedelta("1 days"):
             interaction_level = 'Low'
-        elif pd.Timedelta("4 hours") <= time_delta < pd.Timedelta("12 hours"):
+        elif pd.Timedelta("4 hours") <= normalized_delta < pd.Timedelta("12 hours"):
             interaction_level = 'Medium'
-        elif pd.Timedelta("2 hours") <= time_delta < pd.Timedelta("4 hours"):
+        elif pd.Timedelta("2 hours") <= normalized_delta < pd.Timedelta("4 hours"):
             interaction_level = 'High'
-        elif time_delta < pd.Timedelta("2 hours"):
+        elif normalized_delta < pd.Timedelta("2 hours"):
             interaction_level = 'Very High'
         return interaction_level
 

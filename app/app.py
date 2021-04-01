@@ -1,3 +1,4 @@
+import base64
 import datetime
 import logging
 import os
@@ -266,21 +267,28 @@ def main():
           """)
         st.table(df_top_tweets.assign(hack='').set_index('hack'))
 
-    # Row: Table with all sample data records
+    # Row: Table with all sample data records and export
+    df_display = df[['created_at', 'user.screen_name', 'full_text', 'sentiment_text', 'sentiment_score']].rename(columns={
+                'created_at': 'Created',
+                'user.screen_name': 'User',
+                'full_text': 'Tweet',
+                'sentiment_text': 'Sentiment',
+                'sentiment_score': 'Sentiment Score'
+            })
+    csv = df_display.to_csv().encode()
+    b64 = base64.b64encode(csv).decode()
     st.write("""
     <hr/>  
 
     ## Data
     """, unsafe_allow_html=True)
     with st.beta_expander("All Tweets Analyzed"):
-        st.write(
-            df[['created_at', 'user.screen_name', 'full_text', 'sentiment_text', 'sentiment_score']].rename(columns={
-                'created_at': 'Created',
-                'user.screen_name': 'User',
-                'full_text': 'Tweet',
-                'sentiment_text': 'Sentiment',
-                'sentiment_score': 'Sentiment Score'
-            }))
+        st.write(df_display)
+        st.write("""
+            <div style="text-align:center;margin:1em 0;">
+                <a href="data:file/csv;base64,{}" download="tweets.csv" target="_blank">💾 Export</a>
+            </div>
+            """.format(b64), unsafe_allow_html=True)
 
 
 if __name__ == '__main__':

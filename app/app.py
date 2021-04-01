@@ -49,6 +49,7 @@ def main():
     # Setup Sidebar
     # Handle user input
     user_input = st.sidebar.text_input('Search for a hashtag or keyword to begin', '#Avatar')
+    sample_size = st.sidebar.slider('Sample Size', min_value=100, max_value=1000, step=100)
     st.sidebar.write("""
       Created by [Ryan Dorman](https://github.com/dormanator)
       """)
@@ -81,9 +82,9 @@ def main():
         st.stop()
 
     with st.spinner('🔎 Searching for tweets...'):
-        logging.info('Analyzing Tweets for: {}'.format(user_input))
-        results = api.search(q=user_input, count=100, tweet_mode='extended', result_type='recent')
-        json_data = [r._json for r in results]
+        logging.info('Analyzing {} Tweets for: {}'.format(sample_size, user_input))
+        cursor = tweepy.Cursor(api.search, q=user_input, tweet_mode='extended', result_type='recent').items(sample_size)
+        json_data = [ tweet._json for tweet in cursor]
         df = transformer.convert_json_to_dataframe(json_data)
 
     if df is None:
@@ -101,8 +102,8 @@ def main():
 
     # Start of Page Body
     st.write("""
-      ## 100 Most Recent Tweets for: <u>{}</u> 
-      """.format(user_input), unsafe_allow_html=True)
+      ## {} Most Recent Tweets for: <u>{}</u> 
+      """.format(sample_size, user_input), unsafe_allow_html=True)
 
     # Row: Interaction descriptive stats
     st.write("""
@@ -124,7 +125,7 @@ def main():
     # Col: length of time period 100 most recent occurred
     # Current interaction rating: very low (> 24hrs), low (24hrs-12), med (12-4), high (4-2), very high (<2)
     time_range = df['created_at'].max() - df['created_at'].min()
-    interaction_description = transformer.map_interaction_label(time_range)
+    interaction_description = transformer.map_interaction_label(time_range, sample_size)
     with col2:
         st.write("""
               ### Period

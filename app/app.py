@@ -187,7 +187,7 @@ def main():
     )
     with col2:
         st.write("""
-            ### Frequency
+            ### Distribution
             """)
         st.altair_chart(sentiment_distribution, use_container_width=True)
 
@@ -199,7 +199,7 @@ def main():
     """, unsafe_allow_html=True)
     col1, col2 = st.beta_columns(2)
 
-    # Top favorite & sentiment
+    # Col: Top favorite & sentiment
     top_favorite = df.loc[df['favorite_count'] == df['favorite_count'].max()]
     with col1:
         st.write("""

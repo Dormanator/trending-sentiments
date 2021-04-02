@@ -128,11 +128,11 @@ def main():
     interaction_description = transformer.map_interaction_label(time_range, sample_size)
     with col2:
         st.write("""
-              ### Period
-              """, str(time_range))
-        st.write("""
               ### Level
               """, interaction_description)
+        st.write("""
+              ### Period
+              """, str(time_range))
 
     # Row: Sentiment descriptive stats
     st.write("""

@@ -103,7 +103,7 @@ def main():
     # Start of Page Body
     st.write("""
       ## {} Most Recent Tweets for: <u>{}</u> 
-      """.format(sample_size, user_input), unsafe_allow_html=True)
+      """.format(len(df.index), user_input), unsafe_allow_html=True)
 
     # Row: Interaction descriptive stats
     st.write("""

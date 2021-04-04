@@ -60,9 +60,10 @@ class TestTransformerPipeline(unittest.TestCase):
     def test_map_interaction_label(self):
         mock_time_deltas = [pd.Timedelta("1 hour"), pd.Timedelta("3 hour"), pd.Timedelta("6 hour"),
                             pd.Timedelta("13 hour"), pd.Timedelta("26 hour")]
+        mock_sample_sizes = [100] * 5
         expected_text = ['Very High', 'High', 'Medium', 'Low', 'Very Low']
 
-        interaction_text = list(map(self.transformer.map_interaction_label, mock_time_deltas))
+        interaction_text = list(map(self.transformer.map_interaction_label, mock_time_deltas, mock_sample_sizes))
 
         self.assertListEqual(interaction_text, expected_text)
 

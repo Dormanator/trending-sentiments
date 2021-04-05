@@ -1,4 +1,3 @@
-/bert_model
-.ipynb_*
 .env
 .idea
+trending-sentiments.yaml

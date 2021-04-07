@@ -59,7 +59,7 @@ def main():
         st.write("""
         **Trending Sentiments** is a data exploration application for analyzing hashtags and keywords in tweets. 
         The application provides descriptive statistics on hashtag/term interaction, top tweets, and user 
-        participation. It provides predictive statistics on tweets' sentiments. Sentiment prediction is made 
+        participation. It provides predictive statistics on tweets' sentiments. Sentiment predictions are made 
         using [VADER (Valence Aware Dictionary and sEntiment Reasoner)](https://github.com/cjhutto/vaderSentiment).
         """, unsafe_allow_html=True)
 

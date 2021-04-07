@@ -1,6 +1,6 @@
 
 # 📈 Trending Sentiments
-## 💡 About
+## 🎓 About
 Trending Sentiments is a data exploration application for analyzing hashtags and keywords in tweets created with [Streamlit](https://streamlit.io/). The application provides descriptive statistics on hashtag/term interaction, top tweets, and user participation. It provides predictive statistics on tweets' sentiments. Sentiment predictions are made using [VADER](https://github.com/cjhutto/vaderSentiment).
 
 ## 🚀 Quick Start  

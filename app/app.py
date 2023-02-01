@@ -55,7 +55,7 @@ def main():
       """)
 
     # App description and info
-    with st.sidebar.beta_expander("About"):
+    with st.sidebar.expander("About"):
         st.write("""
         **Trending Sentiments** is a data exploration application for analyzing hashtags and keywords in tweets. 
         The application provides descriptive statistics on hashtag/term interaction, top tweets, and user 
@@ -111,7 +111,7 @@ def main():
     
     ## Interactions
     """, unsafe_allow_html=True)
-    col1, col2 = st.beta_columns([8, 4])
+    col1, col2 = st.columns([8, 4])
 
     # Col: Graph of tweet interaction over time
     with col1:
@@ -140,7 +140,7 @@ def main():
     
     ## Sentiments
     """, unsafe_allow_html=True)
-    col1, col2 = st.beta_columns([4, 8])
+    col1, col2 = st.columns([4, 8])
 
     # Col: Avg sentiments across the sample
     avg_sentiment_score = df['sentiment_score'].mean()
@@ -166,7 +166,7 @@ def main():
             """)
         st.altair_chart(chart_sentiment_score_by_time, use_container_width=True)
 
-    col1, col2 = st.beta_columns([4, 8])
+    col1, col2 = st.columns([4, 8])
     # Col: Sentiments most seen across the sample
     most_common_sentiment = df['sentiment_text'].mode()[0]
     with col1:
@@ -197,7 +197,7 @@ def main():
     
     ## Features
     """, unsafe_allow_html=True)
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.columns(2)
 
     # Col: Top favorite & sentiment
     top_favorite = df.loc[df['favorite_count'] == df['favorite_count'].max()]
@@ -248,7 +248,7 @@ def main():
     
     ## Users
     """, unsafe_allow_html=True)
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.columns(2)
 
     # Col: Number of unique users
     user_counts = df['user.screen_name'].value_counts()
@@ -283,7 +283,7 @@ def main():
 
     ## Data
     """, unsafe_allow_html=True)
-    with st.beta_expander("All Tweets Analyzed"):
+    with st.expander("All Tweets Analyzed"):
         st.write(df_display)
         st.write("""
             <div style="text-align:center;margin:1em 0;">

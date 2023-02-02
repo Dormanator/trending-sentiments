@@ -29,7 +29,7 @@ def main():
     analyzer = SentimentIntensityAnalyzer()
 
     # Setup Page Title and Styles
-    st.set_page_config(page_title='Trending Sentiments', page_icon='📈', initial_sidebar_state='expanded', )
+    st.set_page_config(page_title='Trending Sentiments', page_icon=':chart_with_upwards_trend:', initial_sidebar_state='expanded', )
     st.markdown(
         """<style>
             table {text-align: left !important}

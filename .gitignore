@@ -2,4 +2,4 @@
 .venv
 .idea
 trending-sentiments.yaml
-*/__pycache__
+**/__pycache__/

@@ -1,6 +1,6 @@
 # 📈 Trending Sentiments
 
-⚠️ **As of late 2023, Trending Sentiments no longer works with free tier access to the Twitter (X) API. A basic level paid account ($100/mo) is required to query tweets for analysis. Due to this change the app will no longer be avalible online at https://trendingsentiments.com for public use.** ⚠️
+⚠️ **Disclaimer: In an unexpected plot twist, Twitter (renamed "X") decided their API is too cool for school and slapped a price tag on it. Sadly, this means our humble website, trendinsentiments.com, and its modest GitHub companion are now just quaint relics of a freer internet era. Peek at the code if you like, but running it? That's gonna cost you now. RIP free access.** ⚠️
 
 ## 🎓 About
 
@@ -44,12 +44,25 @@ Trending Sentiments is a data exploration application for analyzing hashtags and
 
 ### Build and Run Docker Container
 
+<<<<<<< HEAD
+
+=======
+
+> > > > > > > 97795e0ce17aa040e87860b0ddf73bde0930bed7
+
 - Download and install Docker from https://www.docker.com
 - Start up Docker on your local machine
 - From within the trending-sentiments directory run: `docker build -t trending-sentiments .`
 - Once the container has built run it with:
+  <<<<<<< HEAD
+  `docker run -p 8501:8501 -e TWITTER_KEY=<YOUR KEY> -e TWITTER_SECRET_KEY=<YOUR SECRET> trending-sentiments`
+
+## 📖 References
+
+- # Hutto, C.J. & Gilbert, E.E. (2014). VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text. _Eighth International Conference on Weblogs and Social Media_ (ICWSM-14). Ann Arbor, MI, June 2014.
   `docker run -p 8501:8501 -e TWITTER_KEY=<YOUR KEY> -e TWITTER_SECRET_KEY=<YOUR SECRET> trending-sentiments`
 
 ## 📖 References
 
 - Hutto, C.J. & Gilbert, E.E. (2014). VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text. _Eighth International Conference on Weblogs and Social Media_ (ICWSM-14). Ann Arbor, MI, June 2014.
+  > > > > > > > 97795e0ce17aa040e87860b0ddf73bde0930bed7

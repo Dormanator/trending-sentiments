@@ -105,15 +105,21 @@ class TransformerPipeline:
         return [hashtag for sublist in flat_entities for hashtag in sublist]
 
     def gen_hashtag_counts_dataframe(self, dataframe):
+        # Flatten nested hashtags:
         hashtags = self._flatten_hashtag_arr(dataframe['entities.hashtags'].to_list())
-        df_hashtags = pd.DataFrame({'Hashtag': pd.Series(hashtags, dtype='str'),
-                                    'Count': pd.Series(np.ones(len(hashtags)), dtype='int')},
-                                   columns=['Hashtag', 'Count'])
-        # Build dataframe with hashtag counts
-        # Df with shape: Hashtag    Count
-        #                avatar     54
-        #                nfl        32
-        return df_hashtags.groupby(df_hashtags['Hashtag'].map(lambda s: s.lower())) \
-            .sum() \
-            .sort_values(by=['Count'], ascending=False) \
-            .reset_index()
+        
+        # Create a small DataFrame of all hashtags
+        df_hashtags = pd.DataFrame({
+            'Hashtag': pd.Series(hashtags, dtype='str'),
+            'Count': pd.Series(np.ones(len(hashtags)), dtype='int')
+        })
+        
+        df_top = (
+            df_hashtags
+            .assign(HashtagLower=df_hashtags['Hashtag'].str.lower())  # temporary column
+            .groupby('HashtagLower', as_index=False)['Count']
+            .sum()
+            .sort_values(by='Count', ascending=False)
+            .rename(columns={'HashtagLower': 'Hashtag'})  # rename back for final display
+        )
+        return df_top

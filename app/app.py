@@ -2,6 +2,7 @@ import base64
 import datetime
 import logging
 import os
+import json
 
 import altair as alt
 import pandas as pd
@@ -38,7 +39,8 @@ def main():
 
     # Setup Sentiment Prediction Model & Twitter API
     with st.spinner('🔨 Getting everything ready...'):
-        api = twitter_connect()
+        pass
+        # api = twitter_connect()
 
     # Setup Page Header
     st.write("""
@@ -64,28 +66,37 @@ def main():
         """, unsafe_allow_html=True)
 
     # Check Twitter API rate limits and handle search state
-    results = api.rate_limit_status()
-    rate_limit_info = results['resources']['search']['/search/tweets']
+    # results = api.rate_limit_status()
+    # rate_limit_info = results['resources']['search']['/search/tweets']
 
     if not user_input:
         st.warning('⛔ Please input a search value.')
         st.stop()
 
-    if rate_limit_info['remaining'] == 0:
-        local_tz = datetime.datetime.utcnow().astimezone().tzinfo
-        reset_time = pd.to_datetime(rate_limit_info['reset'], unit='s') \
-            .tz_localize('utc') \
-            .tz_convert(local_tz) \
-            .strftime('%I:%M:%S %p')
-        st.warning('⏲ We have to wait before getting more data. '
-                   'Try again at {}.'.format(reset_time))
-        st.stop()
+    # if rate_limit_info['remaining'] == 0:
+    #     local_tz = datetime.datetime.utcnow().astimezone().tzinfo
+    #     reset_time = pd.to_datetime(rate_limit_info['reset'], unit='s') \
+    #         .tz_localize('utc') \
+    #         .tz_convert(local_tz) \
+    #         .strftime('%I:%M:%S %p')
+    #     st.warning('⏲ We have to wait before getting more data. '
+    #                'Try again at {}.'.format(reset_time))
+    #     st.stop()
 
     with st.spinner('🔎 Searching for tweets...'):
         logging.info('Analyzing {} Tweets for: {}'.format(sample_size, user_input))
-        cursor = tweepy.Cursor(api.search, q=user_input, tweet_mode='extended', result_type='recent').items(sample_size)
-        json_data = [ tweet._json for tweet in cursor]
-        df = transformer.convert_json_to_dataframe(json_data)
+        # cursor = tweepy.Cursor(api.search, q=user_input, tweet_mode='extended', result_type='recent').items(sample_size)
+        # json_data = [ tweet._json for tweet in cursor]
+        # df = transformer.convert_json_to_dataframe(json_data)
+        with open('mock_data.json', 'r', encoding='utf-8') as f:
+            json_data = json.load(f)
+            df = transformer.convert_json_to_dataframe(json_data)
+            df['created_at'] = pd.to_datetime(
+                df['created_at'],
+                format='%a %b %d %H:%M:%S %z %Y',
+                errors='coerce'
+            )
+
 
     if df is None:
         st.warning('⛔ No tweets found. Try another term.')

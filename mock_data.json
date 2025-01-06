@@ -1,0 +1,1892 @@
+[
+    {
+        "id": 789345234234,
+        "created_at": "Thu Mar 24 15:00:00 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 12,
+        "favorite_count": 34,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234234,
+            "screen_name": "user_0"
+        }
+    },
+    {
+        "id": 789345234235,
+        "created_at": "Thu Mar 24 15:00:30 +0000 2022",
+        "full_text": "Avatar is a masterpiece #Avatar The visuals were stunning!",
+        "retweet_count": 5,
+        "favorite_count": 20,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "Movie"
+                }
+            ]
+        },
+        "user": {
+            "id": 234235,
+            "screen_name": "user_1"
+        }
+    },
+    {
+        "id": 789345234236,
+        "created_at": "Thu Mar 24 15:01:00 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 2,
+        "favorite_count": 5,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234236,
+            "screen_name": "user_2"
+        }
+    },
+    {
+        "id": 789345234237,
+        "created_at": "Thu Mar 24 15:01:30 +0000 2022",
+        "full_text": "Revisiting Avatar after so long still feels magical #Avatar #Film",
+        "retweet_count": 3,
+        "favorite_count": 15,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "Film"
+                }
+            ]
+        },
+        "user": {
+            "id": 234237,
+            "screen_name": "user_3"
+        }
+    },
+    {
+        "id": 789345234238,
+        "created_at": "Thu Mar 24 15:02:00 +0000 2022",
+        "full_text": "The characters in Avatar really grew on me #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234238,
+            "screen_name": "user_4"
+        }
+    },
+    {
+        "id": 789345234239,
+        "created_at": "Thu Mar 24 15:02:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 10,
+        "favorite_count": 40,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234239,
+            "screen_name": "user_5"
+        }
+    },
+    {
+        "id": 789345234240,
+        "created_at": "Thu Mar 24 15:03:00 +0000 2022",
+        "full_text": "Avatar's world-building is top-notch! #Avatar #SciFi",
+        "retweet_count": 4,
+        "favorite_count": 9,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "SciFi"
+                }
+            ]
+        },
+        "user": {
+            "id": 234240,
+            "screen_name": "user_6"
+        }
+    },
+    {
+        "id": 789345234241,
+        "created_at": "Thu Mar 24 15:03:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 1,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234241,
+            "screen_name": "user_7"
+        }
+    },
+    {
+        "id": 789345234242,
+        "created_at": "Thu Mar 24 15:04:00 +0000 2022",
+        "full_text": "The forest scenes in Avatar are breathtaking #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 1,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234242,
+            "screen_name": "user_8"
+        }
+    },
+    {
+        "id": 789345234243,
+        "created_at": "Thu Mar 24 15:04:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 8,
+        "favorite_count": 25,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234243,
+            "screen_name": "user_9"
+        }
+    },
+    {
+        "id": 789345234244,
+        "created_at": "Thu Mar 24 15:05:00 +0000 2022",
+        "full_text": "Check out Avatar if you haven't already! #Avatar #Blockbuster",
+        "retweet_count": 2,
+        "favorite_count": 10,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "Blockbuster"
+                }
+            ]
+        },
+        "user": {
+            "id": 234244,
+            "screen_name": "user_10"
+        }
+    },
+    {
+        "id": 789345234245,
+        "created_at": "Thu Mar 24 15:05:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 3,
+        "favorite_count": 7,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234245,
+            "screen_name": "user_11"
+        }
+    },
+    {
+        "id": 789345234246,
+        "created_at": "Thu Mar 24 15:06:00 +0000 2022",
+        "full_text": "Loved the theme of nature in Avatar #Avatar #Film",
+        "retweet_count": 1,
+        "favorite_count": 6,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "Film"
+                }
+            ]
+        },
+        "user": {
+            "id": 234246,
+            "screen_name": "user_12"
+        }
+    },
+    {
+        "id": 789345234247,
+        "created_at": "Thu Mar 24 15:06:30 +0000 2022",
+        "full_text": "Rewatching Avatar tonight #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 0,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234247,
+            "screen_name": "user_13"
+        }
+    },
+    {
+        "id": 789345234248,
+        "created_at": "Thu Mar 24 15:07:00 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 5,
+        "favorite_count": 10,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234248,
+            "screen_name": "user_14"
+        }
+    },
+    {
+        "id": 789345234249,
+        "created_at": "Thu Mar 24 15:07:30 +0000 2022",
+        "full_text": "The soundtrack of Avatar is breathtaking #Avatar",
+        "retweet_count": 4,
+        "favorite_count": 12,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234249,
+            "screen_name": "user_15"
+        }
+    },
+    {
+        "id": 789345234250,
+        "created_at": "Thu Mar 24 15:08:00 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 2,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234250,
+            "screen_name": "user_16"
+        }
+    },
+    {
+        "id": 789345234251,
+        "created_at": "Thu Mar 24 15:08:30 +0000 2022",
+        "full_text": "Avatar still holds up after all these years #Avatar",
+        "retweet_count": 3,
+        "favorite_count": 5,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234251,
+            "screen_name": "user_17"
+        }
+    },
+    {
+        "id": 789345234252,
+        "created_at": "Thu Mar 24 15:09:00 +0000 2022",
+        "full_text": "If you love fantasy, watch Avatar #Avatar #SciFi",
+        "retweet_count": 1,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "SciFi"
+                }
+            ]
+        },
+        "user": {
+            "id": 234252,
+            "screen_name": "user_18"
+        }
+    },
+    {
+        "id": 789345234253,
+        "created_at": "Thu Mar 24 15:09:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 1,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234253,
+            "screen_name": "user_19"
+        }
+    },
+    {
+        "id": 789345234254,
+        "created_at": "Thu Mar 24 15:10:00 +0000 2022",
+        "full_text": "RT @another_user: The visuals of Avatar blew me away #Avatar",
+        "retweet_count": 10,
+        "favorite_count": 22,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "The visuals of Avatar blew me away #Avatar"
+        },
+        "user": {
+            "id": 234254,
+            "screen_name": "user_20"
+        }
+    },
+    {
+        "id": 789345234255,
+        "created_at": "Thu Mar 24 15:10:30 +0000 2022",
+        "full_text": "Can't get enough of Avatar's world #Avatar",
+        "retweet_count": 4,
+        "favorite_count": 5,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234255,
+            "screen_name": "user_21"
+        }
+    },
+    {
+        "id": 789345234256,
+        "created_at": "Thu Mar 24 15:11:00 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 1,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234256,
+            "screen_name": "user_22"
+        }
+    },
+    {
+        "id": 789345234257,
+        "created_at": "Thu Mar 24 15:11:30 +0000 2022",
+        "full_text": "The story of Avatar resonates with our own struggles #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234257,
+            "screen_name": "user_23"
+        }
+    },
+    {
+        "id": 789345234258,
+        "created_at": "Thu Mar 24 15:12:00 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 6,
+        "favorite_count": 18,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234258,
+            "screen_name": "user_24"
+        }
+    },
+    {
+        "id": 789345234259,
+        "created_at": "Thu Mar 24 15:12:30 +0000 2022",
+        "full_text": "Avatar never disappoints #Avatar #Film",
+        "retweet_count": 2,
+        "favorite_count": 6,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "Film"
+                }
+            ]
+        },
+        "user": {
+            "id": 234259,
+            "screen_name": "user_25"
+        }
+    },
+    {
+        "id": 789345234260,
+        "created_at": "Thu Mar 24 15:13:00 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 5,
+        "favorite_count": 11,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234260,
+            "screen_name": "user_26"
+        }
+    },
+    {
+        "id": 789345234261,
+        "created_at": "Thu Mar 24 15:13:30 +0000 2022",
+        "full_text": "The detail in Avatar's environment is unreal #Avatar",
+        "retweet_count": 3,
+        "favorite_count": 7,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234261,
+            "screen_name": "user_27"
+        }
+    },
+    {
+        "id": 789345234262,
+        "created_at": "Thu Mar 24 15:14:00 +0000 2022",
+        "full_text": "RT @fan_love: Avatar changed the game for visual effects #Avatar",
+        "retweet_count": 8,
+        "favorite_count": 14,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar changed the game for visual effects #Avatar"
+        },
+        "user": {
+            "id": 234262,
+            "screen_name": "user_28"
+        }
+    },
+    {
+        "id": 789345234263,
+        "created_at": "Thu Mar 24 15:14:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 2,
+        "favorite_count": 5,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234263,
+            "screen_name": "user_29"
+        }
+    },
+    {
+        "id": 789345234264,
+        "created_at": "Thu Mar 24 15:15:00 +0000 2022",
+        "full_text": "The characters in Avatar are so memorable #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234264,
+            "screen_name": "user_30"
+        }
+    },
+    {
+        "id": 789345234265,
+        "created_at": "Thu Mar 24 15:15:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 0,
+        "favorite_count": 1,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234265,
+            "screen_name": "user_31"
+        }
+    },
+    {
+        "id": 789345234266,
+        "created_at": "Thu Mar 24 15:16:00 +0000 2022",
+        "full_text": "Avatar is cinematic brilliance #Avatar #SciFi",
+        "retweet_count": 2,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "SciFi"
+                }
+            ]
+        },
+        "user": {
+            "id": 234266,
+            "screen_name": "user_32"
+        }
+    },
+    {
+        "id": 789345234267,
+        "created_at": "Thu Mar 24 15:16:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 4,
+        "favorite_count": 10,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234267,
+            "screen_name": "user_33"
+        }
+    },
+    {
+        "id": 789345234268,
+        "created_at": "Thu Mar 24 15:17:00 +0000 2022",
+        "full_text": "The themes in Avatar are so relevant #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234268,
+            "screen_name": "user_34"
+        }
+    },
+    {
+        "id": 789345234269,
+        "created_at": "Thu Mar 24 15:17:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 3,
+        "favorite_count": 8,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234269,
+            "screen_name": "user_35"
+        }
+    },
+    {
+        "id": 789345234270,
+        "created_at": "Thu Mar 24 15:18:00 +0000 2022",
+        "full_text": "RT @inspired_fan: Avatar opened my eyes to a whole new world #Avatar",
+        "retweet_count": 6,
+        "favorite_count": 13,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar opened my eyes to a whole new world #Avatar"
+        },
+        "user": {
+            "id": 234270,
+            "screen_name": "user_36"
+        }
+    },
+    {
+        "id": 789345234271,
+        "created_at": "Thu Mar 24 15:18:30 +0000 2022",
+        "full_text": "Just finished Avatar, still in awe #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234271,
+            "screen_name": "user_37"
+        }
+    },
+    {
+        "id": 789345234272,
+        "created_at": "Thu Mar 24 15:19:00 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 5,
+        "favorite_count": 9,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234272,
+            "screen_name": "user_38"
+        }
+    },
+    {
+        "id": 789345234273,
+        "created_at": "Thu Mar 24 15:19:30 +0000 2022",
+        "full_text": "Avatar is timeless #Avatar #Movie",
+        "retweet_count": 1,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "Movie"
+                }
+            ]
+        },
+        "user": {
+            "id": 234273,
+            "screen_name": "user_39"
+        }
+    },
+    {
+        "id": 789345234274,
+        "created_at": "Thu Mar 24 15:20:00 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 2,
+        "favorite_count": 6,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234274,
+            "screen_name": "user_40"
+        }
+    },
+    {
+        "id": 789345234275,
+        "created_at": "Thu Mar 24 15:20:30 +0000 2022",
+        "full_text": "The artistry in Avatar is unmatched #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 1,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234275,
+            "screen_name": "user_41"
+        }
+    },
+    {
+        "id": 789345234276,
+        "created_at": "Thu Mar 24 15:21:00 +0000 2022",
+        "full_text": "RT @movie_buff: Avatar transported me to another reality #Avatar",
+        "retweet_count": 7,
+        "favorite_count": 14,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar transported me to another reality #Avatar"
+        },
+        "user": {
+            "id": 234276,
+            "screen_name": "user_42"
+        }
+    },
+    {
+        "id": 789345234277,
+        "created_at": "Thu Mar 24 15:21:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234277,
+            "screen_name": "user_43"
+        }
+    },
+    {
+        "id": 789345234278,
+        "created_at": "Thu Mar 24 15:22:00 +0000 2022",
+        "full_text": "The emotional journey in Avatar hits hard #Avatar",
+        "retweet_count": 2,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234278,
+            "screen_name": "user_44"
+        }
+    },
+    {
+        "id": 789345234279,
+        "created_at": "Thu Mar 24 15:22:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 3,
+        "favorite_count": 7,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234279,
+            "screen_name": "user_45"
+        }
+    },
+    {
+        "id": 789345234280,
+        "created_at": "Thu Mar 24 15:23:00 +0000 2022",
+        "full_text": "RT @cinema_lover: Still stunned by Avatar's visuals #Avatar",
+        "retweet_count": 5,
+        "favorite_count": 10,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Still stunned by Avatar's visuals #Avatar"
+        },
+        "user": {
+            "id": 234280,
+            "screen_name": "user_46"
+        }
+    },
+    {
+        "id": 789345234281,
+        "created_at": "Thu Mar 24 15:23:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234281,
+            "screen_name": "user_47"
+        }
+    },
+    {
+        "id": 789345234282,
+        "created_at": "Thu Mar 24 15:24:00 +0000 2022",
+        "full_text": "The plot of Avatar always inspires me #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 5,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234282,
+            "screen_name": "user_48"
+        }
+    },
+    {
+        "id": 789345234283,
+        "created_at": "Thu Mar 24 15:24:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 4,
+        "favorite_count": 9,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234283,
+            "screen_name": "user_49"
+        }
+    },
+    {
+        "id": 789345234284,
+        "created_at": "Thu Mar 24 15:25:00 +0000 2022",
+        "full_text": "I need more films like Avatar #Avatar #Film",
+        "retweet_count": 2,
+        "favorite_count": 8,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "Film"
+                }
+            ]
+        },
+        "user": {
+            "id": 234284,
+            "screen_name": "user_50"
+        }
+    },
+    {
+        "id": 789345234285,
+        "created_at": "Thu Mar 24 15:25:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 3,
+        "favorite_count": 5,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234285,
+            "screen_name": "user_51"
+        }
+    },
+    {
+        "id": 789345234286,
+        "created_at": "Thu Mar 24 15:26:00 +0000 2022",
+        "full_text": "Avatar sets a high bar for all movies #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234286,
+            "screen_name": "user_52"
+        }
+    },
+    {
+        "id": 789345234287,
+        "created_at": "Thu Mar 24 15:26:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 2,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234287,
+            "screen_name": "user_53"
+        }
+    },
+    {
+        "id": 789345234288,
+        "created_at": "Thu Mar 24 15:27:00 +0000 2022",
+        "full_text": "RT @visual_fan: Avatar is truly art in motion #Avatar",
+        "retweet_count": 8,
+        "favorite_count": 16,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar is truly art in motion #Avatar"
+        },
+        "user": {
+            "id": 234288,
+            "screen_name": "user_54"
+        }
+    },
+    {
+        "id": 789345234289,
+        "created_at": "Thu Mar 24 15:27:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234289,
+            "screen_name": "user_55"
+        }
+    },
+    {
+        "id": 789345234290,
+        "created_at": "Thu Mar 24 15:28:00 +0000 2022",
+        "full_text": "The story never gets old #Avatar #Movie",
+        "retweet_count": 0,
+        "favorite_count": 1,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "Movie"
+                }
+            ]
+        },
+        "user": {
+            "id": 234290,
+            "screen_name": "user_56"
+        }
+    },
+    {
+        "id": 789345234291,
+        "created_at": "Thu Mar 24 15:28:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 4,
+        "favorite_count": 6,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234291,
+            "screen_name": "user_57"
+        }
+    },
+    {
+        "id": 789345234292,
+        "created_at": "Thu Mar 24 15:29:00 +0000 2022",
+        "full_text": "RT @fan_art: Inspired by Avatar to paint new horizons #Avatar",
+        "retweet_count": 3,
+        "favorite_count": 9,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Inspired by Avatar to paint new horizons #Avatar"
+        },
+        "user": {
+            "id": 234292,
+            "screen_name": "user_58"
+        }
+    },
+    {
+        "id": 789345234293,
+        "created_at": "Thu Mar 24 15:29:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 2,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234293,
+            "screen_name": "user_59"
+        }
+    },
+    {
+        "id": 789345234294,
+        "created_at": "Thu Mar 24 15:30:00 +0000 2022",
+        "full_text": "You have to see Avatar at least once #Avatar #Film",
+        "retweet_count": 1,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "Film"
+                }
+            ]
+        },
+        "user": {
+            "id": 234294,
+            "screen_name": "user_60"
+        }
+    },
+    {
+        "id": 789345234295,
+        "created_at": "Thu Mar 24 15:30:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 5,
+        "favorite_count": 12,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234295,
+            "screen_name": "user_61"
+        }
+    },
+    {
+        "id": 789345234296,
+        "created_at": "Thu Mar 24 15:31:00 +0000 2022",
+        "full_text": "Avatar sets the bar for immersive worlds #Avatar #SciFi",
+        "retweet_count": 2,
+        "favorite_count": 8,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "SciFi"
+                }
+            ]
+        },
+        "user": {
+            "id": 234296,
+            "screen_name": "user_62"
+        }
+    },
+    {
+        "id": 789345234297,
+        "created_at": "Thu Mar 24 15:31:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234297,
+            "screen_name": "user_63"
+        }
+    },
+    {
+        "id": 789345234298,
+        "created_at": "Thu Mar 24 15:32:00 +0000 2022",
+        "full_text": "The legacy of Avatar will live on #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 1,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234298,
+            "screen_name": "user_64"
+        }
+    },
+    {
+        "id": 789345234299,
+        "created_at": "Thu Mar 24 15:32:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 4,
+        "favorite_count": 9,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234299,
+            "screen_name": "user_65"
+        }
+    },
+    {
+        "id": 789345234300,
+        "created_at": "Thu Mar 24 15:33:00 +0000 2022",
+        "full_text": "RT @obsessed_fan: Avatar is my all-time favorite movie #Avatar",
+        "retweet_count": 5,
+        "favorite_count": 10,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar is my all-time favorite movie #Avatar"
+        },
+        "user": {
+            "id": 234300,
+            "screen_name": "user_66"
+        }
+    },
+    {
+        "id": 789345234301,
+        "created_at": "Thu Mar 24 15:33:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234301,
+            "screen_name": "user_67"
+        }
+    },
+    {
+        "id": 789345234302,
+        "created_at": "Thu Mar 24 15:34:00 +0000 2022",
+        "full_text": "The creatures in Avatar are so imaginative #Avatar",
+        "retweet_count": 2,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234302,
+            "screen_name": "user_68"
+        }
+    },
+    {
+        "id": 789345234303,
+        "created_at": "Thu Mar 24 15:34:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 2,
+        "favorite_count": 7,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234303,
+            "screen_name": "user_69"
+        }
+    },
+    {
+        "id": 789345234304,
+        "created_at": "Thu Mar 24 15:35:00 +0000 2022",
+        "full_text": "RT @impressed_viewer: Avatar sets new standards in filmmaking #Avatar",
+        "retweet_count": 9,
+        "favorite_count": 15,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar sets new standards in filmmaking #Avatar"
+        },
+        "user": {
+            "id": 234304,
+            "screen_name": "user_70"
+        }
+    },
+    {
+        "id": 789345234305,
+        "created_at": "Thu Mar 24 15:35:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 1,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234305,
+            "screen_name": "user_71"
+        }
+    },
+    {
+        "id": 789345234306,
+        "created_at": "Thu Mar 24 15:36:00 +0000 2022",
+        "full_text": "The emotional resonance of Avatar is off the charts #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 5,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234306,
+            "screen_name": "user_72"
+        }
+    },
+    {
+        "id": 789345234307,
+        "created_at": "Thu Mar 24 15:36:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 3,
+        "favorite_count": 6,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234307,
+            "screen_name": "user_73"
+        }
+    },
+    {
+        "id": 789345234308,
+        "created_at": "Thu Mar 24 15:37:00 +0000 2022",
+        "full_text": "RT @visuals_fanatic: Avatar is pure visual poetry #Avatar",
+        "retweet_count": 4,
+        "favorite_count": 9,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar is pure visual poetry #Avatar"
+        },
+        "user": {
+            "id": 234308,
+            "screen_name": "user_74"
+        }
+    },
+    {
+        "id": 789345234309,
+        "created_at": "Thu Mar 24 15:37:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234309,
+            "screen_name": "user_75"
+        }
+    },
+    {
+        "id": 789345234310,
+        "created_at": "Thu Mar 24 15:38:00 +0000 2022",
+        "full_text": "The cultural impact of Avatar cannot be denied #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234310,
+            "screen_name": "user_76"
+        }
+    },
+    {
+        "id": 789345234311,
+        "created_at": "Thu Mar 24 15:38:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 2,
+        "favorite_count": 5,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234311,
+            "screen_name": "user_77"
+        }
+    },
+    {
+        "id": 789345234312,
+        "created_at": "Thu Mar 24 15:39:00 +0000 2022",
+        "full_text": "RT @epic_scales: Avatar truly expanded what's possible in cinema #Avatar",
+        "retweet_count": 6,
+        "favorite_count": 12,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar truly expanded what's possible in cinema #Avatar"
+        },
+        "user": {
+            "id": 234312,
+            "screen_name": "user_78"
+        }
+    },
+    {
+        "id": 789345234313,
+        "created_at": "Thu Mar 24 15:39:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234313,
+            "screen_name": "user_79"
+        }
+    },
+    {
+        "id": 789345234314,
+        "created_at": "Thu Mar 24 15:40:00 +0000 2022",
+        "full_text": "The feeling after watching Avatar stays with you #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234314,
+            "screen_name": "user_80"
+        }
+    },
+    {
+        "id": 789345234315,
+        "created_at": "Thu Mar 24 15:40:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 4,
+        "favorite_count": 8,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234315,
+            "screen_name": "user_81"
+        }
+    },
+    {
+        "id": 789345234316,
+        "created_at": "Thu Mar 24 15:41:00 +0000 2022",
+        "full_text": "RT @fan_express: Avatar is a landmark in cinema #Avatar",
+        "retweet_count": 5,
+        "favorite_count": 10,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar is a landmark in cinema #Avatar"
+        },
+        "user": {
+            "id": 234316,
+            "screen_name": "user_82"
+        }
+    },
+    {
+        "id": 789345234317,
+        "created_at": "Thu Mar 24 15:41:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234317,
+            "screen_name": "user_83"
+        }
+    },
+    {
+        "id": 789345234318,
+        "created_at": "Thu Mar 24 15:42:00 +0000 2022",
+        "full_text": "Avatar sets your imagination free #Avatar",
+        "retweet_count": 2,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234318,
+            "screen_name": "user_84"
+        }
+    },
+    {
+        "id": 789345234319,
+        "created_at": "Thu Mar 24 15:42:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 3,
+        "favorite_count": 7,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234319,
+            "screen_name": "user_85"
+        }
+    },
+    {
+        "id": 789345234320,
+        "created_at": "Thu Mar 24 15:43:00 +0000 2022",
+        "full_text": "RT @inspired_viewer: Avatar made me appreciate nature more #Avatar",
+        "retweet_count": 4,
+        "favorite_count": 9,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar made me appreciate nature more #Avatar"
+        },
+        "user": {
+            "id": 234320,
+            "screen_name": "user_86"
+        }
+    },
+    {
+        "id": 789345234321,
+        "created_at": "Thu Mar 24 15:43:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234321,
+            "screen_name": "user_87"
+        }
+    },
+    {
+        "id": 789345234322,
+        "created_at": "Thu Mar 24 15:44:00 +0000 2022",
+        "full_text": "The messages in Avatar are universal #Avatar #Film",
+        "retweet_count": 2,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                },
+                {
+                    "text": "Film"
+                }
+            ]
+        },
+        "user": {
+            "id": 234322,
+            "screen_name": "user_88"
+        }
+    },
+    {
+        "id": 789345234323,
+        "created_at": "Thu Mar 24 15:44:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 1,
+        "favorite_count": 5,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234323,
+            "screen_name": "user_89"
+        }
+    },
+    {
+        "id": 789345234324,
+        "created_at": "Thu Mar 24 15:45:00 +0000 2022",
+        "full_text": "RT @cinema_world: Avatar is an experience, not just a movie #Avatar",
+        "retweet_count": 7,
+        "favorite_count": 16,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar is an experience, not just a movie #Avatar"
+        },
+        "user": {
+            "id": 234324,
+            "screen_name": "user_90"
+        }
+    },
+    {
+        "id": 789345234325,
+        "created_at": "Thu Mar 24 15:45:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 3,
+        "favorite_count": 7,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234325,
+            "screen_name": "user_91"
+        }
+    },
+    {
+        "id": 789345234326,
+        "created_at": "Thu Mar 24 15:46:00 +0000 2022",
+        "full_text": "The world of Avatar inspires my creativity #Avatar",
+        "retweet_count": 2,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234326,
+            "screen_name": "user_92"
+        }
+    },
+    {
+        "id": 789345234327,
+        "created_at": "Thu Mar 24 15:46:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 2,
+        "favorite_count": 5,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234327,
+            "screen_name": "user_93"
+        }
+    },
+    {
+        "id": 789345234328,
+        "created_at": "Thu Mar 24 15:47:00 +0000 2022",
+        "full_text": "RT @art_fan: Avatar is a visual feast #Avatar",
+        "retweet_count": 4,
+        "favorite_count": 10,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar is a visual feast #Avatar"
+        },
+        "user": {
+            "id": 234328,
+            "screen_name": "user_94"
+        }
+    },
+    {
+        "id": 789345234329,
+        "created_at": "Thu Mar 24 15:47:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 0,
+        "favorite_count": 1,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234329,
+            "screen_name": "user_95"
+        }
+    },
+    {
+        "id": 789345234330,
+        "created_at": "Thu Mar 24 15:48:00 +0000 2022",
+        "full_text": "Avatar reminds me of the importance of harmony with nature #Avatar",
+        "retweet_count": 1,
+        "favorite_count": 2,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234330,
+            "screen_name": "user_96"
+        }
+    },
+    {
+        "id": 789345234331,
+        "created_at": "Thu Mar 24 15:48:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar Can't wait for the sequel!",
+        "retweet_count": 1,
+        "favorite_count": 3,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234331,
+            "screen_name": "user_97"
+        }
+    },
+    {
+        "id": 789345234332,
+        "created_at": "Thu Mar 24 15:49:00 +0000 2022",
+        "full_text": "RT @cinephile_corner: Avatar opened a new era in filmmaking #Avatar",
+        "retweet_count": 5,
+        "favorite_count": 11,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "retweeted_status": {
+            "full_text": "Avatar opened a new era in filmmaking #Avatar"
+        },
+        "user": {
+            "id": 234332,
+            "screen_name": "user_98"
+        }
+    },
+    {
+        "id": 789345234333,
+        "created_at": "Thu Mar 24 15:49:30 +0000 2022",
+        "full_text": "I just watched Avatar and it was amazing! #Avatar",
+        "retweet_count": 2,
+        "favorite_count": 4,
+        "entities": {
+            "hashtags": [
+                {
+                    "text": "Avatar"
+                }
+            ]
+        },
+        "user": {
+            "id": 234333,
+            "screen_name": "user_99"
+        }
+    }
+]
